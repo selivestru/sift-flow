@@ -1,0 +1,41 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: client lint
+      root: client/
+      glob: "client/**/*.{js,jsx,ts,tsx}"
+      run: bunx oxlint --fix {staged_files}
+      stage_fixed: true
+
+    - name: client format
+      root: client/
+      glob: "client/**/*.{js,jsx,ts,tsx,json,css,html}"
+      run: bunx oxfmt {staged_files}
+      stage_fixed: true
+
+    - name: server lint
+      root: server/
+      glob: "server/**/*.{js,ts}"
+      run: bunx oxlint --fix {staged_files}
+      stage_fixed: true
+
+    - name: server format
+      root: server/
+      glob: "server/**/*.{js,ts,json}"
+      run: bunx oxfmt {staged_files}
+      stage_fixed: true
+
+pre-push:
+  parallel: true
+  jobs:
+    - name: client typecheck
+      root: client/
+      glob: "client/**/*.{ts,tsx}"
+      run: bunx tsc -b
+      fail_text: "client typecheck failed, run: bun --cwd client x tsc -b"
+
+    - name: server typecheck
+      root: server/
+      glob: "server/**/*.ts"
+      run: bunx tsc --noEmit --incremental false -p tsconfig.json
+      fail_text: "server typecheck failed, run: bun --cwd server x tsc --noEmit -p tsconfig.json"

@@ -1,0 +1,11 @@
+{
+  "name": "sif-flow",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "devDependencies": {
+    "lefthook": "^2.1.12"
+  }
+}
