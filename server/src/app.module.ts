@@ -7,6 +7,7 @@ import { GraphQLModule } from '@nestjs/graphql'
 
 import { AppController } from './app.controller.js'
 import { GraphQLContext } from './common/types/graphql.types.js'
+import { RedisModule } from './infrastructure/redis/redis.module.js'
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { GraphQLContext } from './common/types/graphql.types.js'
       sortSchema: true,
       context: ({ req, res }: GraphQLContext) => ({ req, res }),
     }),
+    RedisModule,
   ],
   controllers: [AppController],
 })

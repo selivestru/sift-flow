@@ -1,4 +1,3 @@
-import { ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
@@ -17,13 +16,6 @@ async function bootstrap() {
     origin: config.get('ORIGIN', { infer: true }),
     credentials: true,
   })
-
-  app.useGlobalPipes(
-    new ValidationPipe({
-      transform: true,
-      whitelist: true,
-    }),
-  )
 
   app.setGlobalPrefix('api')
 
