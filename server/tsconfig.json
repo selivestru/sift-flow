@@ -14,8 +14,9 @@
     "sourceMap": true,
     "outDir": "./dist",
     "paths": {
-      "~/config/*": ["./src/config/*"],
       "~/common/*": ["./src/common/*"],
+      "~/config/*": ["./src/config/*"],
+      "~/generated/*": ["./src/generated/*"],
       "~/infrastructure/*": ["./src/infrastructure/*"],
       "~/modules/*": ["./src/modules/*"],
       "~/*": ["./src/*"]

@@ -58,3 +58,5 @@ node_modules/
 dist/
 
 /src/generated/prisma
+# Regenerated from decorators on every boot (GraphQLModule autoSchemaFile)
+/src/schema.gql

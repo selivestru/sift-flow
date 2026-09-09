@@ -26,7 +26,7 @@ typography:
     lineHeight: 1.5
   label:
     fontFamily: Geist Variable
-    fontSize: 0.75rem
+    fontSize: 0.875rem
     fontWeight: 500
     lineHeight: 1.35
 rounded:
@@ -114,7 +114,7 @@ near-black `oklch(0.141 0.005 285.823)`, surfaces lift to
 
 Geist Variable (`@fontsource-variable/geist`), `--font-sans` only;
 `--font-heading` aliases it. Base size is `body-md`; control labels use
-`label` (0.75rem, medium) — buttons set `text-xs font-medium` explicitly.
+`label` (0.875rem, medium) — buttons set `text-sm font-medium` explicitly.
 No display face, no caps-lock labels.
 
 ## Layout
