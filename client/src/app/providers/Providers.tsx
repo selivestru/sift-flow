@@ -1,5 +1,10 @@
+import { MotionProvider } from './MotionProvider'
 import { TanstackRouterProvider } from './TanstackRouterProvider'
 
 export const Providers = () => {
-  return <TanstackRouterProvider />
+  return (
+    <MotionProvider>
+      <TanstackRouterProvider />
+    </MotionProvider>
+  )
 }
