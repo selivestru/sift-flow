@@ -1,6 +1,12 @@
-import { Outlet, createRootRoute } from '@tanstack/react-router'
+import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
 
-export const Route = createRootRoute({
+import type { AuthState } from '~/shared/auth'
+
+interface RouterContext {
+  auth: AuthState
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootComponent,
 })
 

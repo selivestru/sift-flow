@@ -1,9 +1,15 @@
-import { createRouter, RouterProvider } from '@tanstack/react-router'
+import { RouterProvider, createRouter } from '@tanstack/react-router'
+
+import type { AuthState } from '~/shared/auth'
+import { AuthProvider, useAuth } from '~/shared/auth'
 
 import { routeTree } from '../routeTree.gen'
 
 const router = createRouter({
   routeTree,
+  context: {
+    auth: undefined as unknown as AuthState,
+  },
 })
 
 declare module '@tanstack/react-router' {
@@ -12,6 +18,15 @@ declare module '@tanstack/react-router' {
   }
 }
 
+function InnerApp() {
+  const auth = useAuth()
+  return <RouterProvider router={router} context={{ auth }} />
+}
+
 export const TanstackRouterProvider = () => {
-  return <RouterProvider router={router} />
+  return (
+    <AuthProvider>
+      <InnerApp />
+    </AuthProvider>
+  )
 }
