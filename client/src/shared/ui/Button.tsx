@@ -1,4 +1,6 @@
 import { Button as ButtonPrimitive } from '@base-ui/react/button'
+import { Loading03Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { cn } from 'cn'
 import { tv, type VariantProps } from 'tailwind-variants'
 
@@ -39,8 +41,11 @@ function Button({
   className,
   variant = 'default',
   size = 'default',
+  isLoading = false,
+  disabled,
+  children,
   ...props
-}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants> & { isLoading?: boolean }) {
   return (
     <ButtonPrimitive
       data-slot="button"
@@ -51,8 +56,13 @@ function Button({
         }),
         className,
       )}
+      disabled={disabled || isLoading}
+      aria-busy={isLoading || undefined}
       {...props}
-    />
+    >
+      {isLoading && <HugeiconsIcon icon={Loading03Icon} className="animate-spin" aria-hidden />}
+      {children}
+    </ButtonPrimitive>
   )
 }
 

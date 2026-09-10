@@ -56,8 +56,7 @@ export class AuthService {
 
     req.session.userId = user.id
     req.session.createdAt = Date.now()
-
-    if (csrfToken) req.session.csrfToken = csrfToken
+    req.session.csrfToken = csrfToken
 
     return this.toUserType(user)
   }
@@ -77,8 +76,7 @@ export class AuthService {
 
     req.session.userId = user.id
     req.session.createdAt = Date.now()
-
-    if (csrfToken) req.session.csrfToken = csrfToken
+    req.session.csrfToken = csrfToken
 
     return this.toUserType(user)
   }
@@ -105,8 +103,16 @@ export class AuthService {
   }
 
   issueCsrfToken(req: SessionRequest): string {
+    const existing = req.session.csrfToken
+
+    if (existing) {
+      return existing
+    }
+
     const token = randomBytes(32).toString('hex')
+
     req.session.csrfToken = token
+
     return token
   }
 

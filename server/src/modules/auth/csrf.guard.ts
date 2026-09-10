@@ -5,7 +5,6 @@ import { GqlExecutionContext } from '@nestjs/graphql'
 
 import type { GraphQLContext } from '~/common/types/graphql.types.js'
 
-export const CSRF_COOKIE_NAME = 'csrf-token'
 export const CSRF_HEADER_NAME = 'x-csrf-token'
 
 @Injectable()

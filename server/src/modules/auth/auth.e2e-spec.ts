@@ -77,14 +77,16 @@ describe('auth (e2e, GraphQL session cookies)', () => {
     await app.close()
   })
 
-  it('handshakes CSRF and sets a session cookie', async () => {
+  it('handshakes CSRF, reuses the token, and sets a session cookie', async () => {
     const res = await gql(CSRF_QUERY)
     expect(res.status).toBe(200)
     csrf = res.body.data.csrfToken as string
     expect(typeof csrf).toBe('string')
     store(res)
-    expect(jar).toContain('csrf-token=')
     expect(sessionCookie(res)).toBeDefined()
+
+    const again = await gql(CSRF_QUERY)
+    expect(again.body.data.csrfToken).toBe(csrf)
   })
 
   it('registers, rotates the session id, and never leaks password', async () => {

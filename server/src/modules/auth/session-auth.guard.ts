@@ -21,6 +21,7 @@ export class SessionAuthGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ])
+
     if (isPublic) return true
 
     const gql = GqlExecutionContext.create(context).getContext<GraphQLContext>()
