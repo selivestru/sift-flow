@@ -10,7 +10,6 @@ const router = createRouter({
 })
 
 useAuthStore.subscribe((auth) => {
-  console.debug('sdasdasd', auth)
   router.update({ ...router.options, context: { auth } })
 })
 
