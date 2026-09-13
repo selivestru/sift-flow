@@ -16,7 +16,6 @@ import { Route as AuthenticatedTestRouteImport } from './../pages/_authenticated
 import { Route as AuthIndexRouteImport } from './../pages/auth/index'
 import { Route as AuthLoginRouteImport } from './../pages/auth/login'
 import { Route as AuthRegisterRouteImport } from './../pages/auth/register'
-import { Route as AuthResetRouteImport } from './../pages/auth/reset'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,11 +51,6 @@ const AuthRegisterRoute = AuthRegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => AuthRoute,
 } as any)
-const AuthResetRoute = AuthResetRouteImport.update({
-  id: '/reset',
-  path: '/reset',
-  getParentRoute: () => AuthRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -64,7 +58,6 @@ export interface FileRoutesByFullPath {
   '/test': typeof AuthenticatedTestRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/auth/reset': typeof AuthResetRoute
   '/auth/': typeof AuthIndexRoute
 }
 export interface FileRoutesByTo {
@@ -72,7 +65,6 @@ export interface FileRoutesByTo {
   '/test': typeof AuthenticatedTestRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/auth/reset': typeof AuthResetRoute
   '/auth': typeof AuthIndexRoute
 }
 export interface FileRoutesById {
@@ -83,21 +75,14 @@ export interface FileRoutesById {
   '/_authenticated/test': typeof AuthenticatedTestRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/auth/reset': typeof AuthResetRoute
   '/auth/': typeof AuthIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/auth'
-    | '/test'
-    | '/auth/login'
-    | '/auth/register'
-    | '/auth/reset'
-    | '/auth/'
+    '/' | '/auth' | '/test' | '/auth/login' | '/auth/register' | '/auth/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/test' | '/auth/login' | '/auth/register' | '/auth/reset' | '/auth'
+  to: '/' | '/test' | '/auth/login' | '/auth/register' | '/auth'
   id:
     | '__root__'
     | '/'
@@ -106,7 +91,6 @@ export interface FileRouteTypes {
     | '/_authenticated/test'
     | '/auth/login'
     | '/auth/register'
-    | '/auth/reset'
     | '/auth/'
   fileRoutesById: FileRoutesById
 }
@@ -167,13 +151,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRegisterRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/auth/reset': {
-      id: '/auth/reset'
-      path: '/reset'
-      fullPath: '/auth/reset'
-      preLoaderRoute: typeof AuthResetRouteImport
-      parentRoute: typeof AuthRoute
-    }
   }
 }
 
@@ -192,14 +169,12 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 interface AuthRouteChildren {
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
-  AuthResetRoute: typeof AuthResetRoute
   AuthIndexRoute: typeof AuthIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
-  AuthResetRoute: AuthResetRoute,
   AuthIndexRoute: AuthIndexRoute,
 }
 

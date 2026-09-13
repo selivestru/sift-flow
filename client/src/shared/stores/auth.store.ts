@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { immer } from 'zustand/middleware/immer'
 
 export interface AuthUser {
   id: string
@@ -13,17 +14,21 @@ export interface AuthState {
   clearUser: () => void
 }
 
-export const useAuthStore = create<AuthState>()((set) => ({
-  user: null,
-  isAuthenticated: false,
-  setUser: (user) =>
-    set({
-      user,
-      isAuthenticated: true,
-    }),
-  clearUser: () =>
-    set({
-      user: null,
-      isAuthenticated: false,
-    }),
-}))
+export const useAuthStore = create<AuthState>()(
+  immer((set) => ({
+    user: null,
+    isAuthenticated: false,
+    setUser: (user) => {
+      set((state) => {
+        state.user = user
+        state.isAuthenticated = true
+      })
+    },
+    clearUser: () => {
+      set((state) => {
+        state.user = null
+        state.isAuthenticated = false
+      })
+    },
+  })),
+)
