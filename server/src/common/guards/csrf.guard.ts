@@ -3,7 +3,7 @@ import { timingSafeEqual } from 'node:crypto'
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
 
-import type { GraphQLContext } from '~/common/types/graphql.types.js'
+import { GraphQLContext } from '../types/graphql.types.js'
 
 export const CSRF_HEADER_NAME = 'x-csrf-token'
 

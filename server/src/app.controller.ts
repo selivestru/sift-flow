@@ -5,7 +5,7 @@ import { Public } from './common/decorators/public.decorator.js'
 @Controller()
 export class AppController {
   @Public()
-  @Get()
+  @Get('health')
   health(): string {
     return 'OK'
   }

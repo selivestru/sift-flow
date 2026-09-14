@@ -2,7 +2,7 @@ import { ExecutionContext, Injectable } from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
 import { ThrottlerGuard } from '@nestjs/throttler'
 
-import type { GraphQLContext } from '~/common/types/graphql.types.js'
+import { GraphQLContext } from '../types/graphql.types.js'
 
 @Injectable()
 export class GqlThrottlerGuard extends ThrottlerGuard {

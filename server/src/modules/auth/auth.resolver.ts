@@ -2,13 +2,15 @@ import { UseGuards } from '@nestjs/common'
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { Throttle } from '@nestjs/throttler'
 
+import { CurrentUser } from '~/common/decorators/current-user.decorator.js'
 import { Public } from '~/common/decorators/public.decorator.js'
-import type { GraphQLContext } from '~/common/types/graphql.types.js'
+import { CsrfGuard } from '~/common/guards/csrf.guard.js'
+import { type GraphQLContext } from '~/common/types/graphql.types.js'
 
 import { AuthService } from './auth.service.js'
-import { AuthPayload, LoginInput, RegisterInput, UserType } from './auth.types.js'
-import { CsrfGuard } from './csrf.guard.js'
-import { CurrentUser } from './current-user.decorator.js'
+import { LoginInput } from './dto/login.input.js'
+import { RegisterInput } from './dto/register.input.js'
+import { AuthPayload, UserType } from './entities/auth.entity.js'
 
 @Resolver()
 export class AuthResolver {

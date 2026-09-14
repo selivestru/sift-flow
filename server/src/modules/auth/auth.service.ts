@@ -16,7 +16,9 @@ import type { EnvConfig } from '~/config/env.config.js'
 import { Prisma, User } from '~/generated/prisma/client.js'
 import { PrismaService } from '~/infrastructure/prisma/prisma.service.js'
 
-import type { LoginInput, RegisterInput, UserType } from './auth.types.js'
+import { LoginInput } from './dto/login.input.js'
+import { RegisterInput } from './dto/register.input.js'
+import { UserType } from './entities/auth.entity.js'
 
 @Injectable()
 export class AuthService {

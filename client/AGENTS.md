@@ -30,7 +30,23 @@ Use skill: [feature-sliced-design](.agents/skills/feature-sliced-design/SKILL.md
 - No default export for app code. Exceptions: required Vite / oxfmt / oxlint config and TanStack Query devtools — not a template for modules.
 - Use `??` for fallback only on `null`/`undefined`; do not replace intentional falsy logic with it.
 - Conditional React render: `condition && <Component />`, never `condition ? <Component /> : null`.
-- **Generated files.** Never hand-edit [routeTree.gen.ts](src/app/routeTree.gen.ts).
+- **Generated files.** Never hand-edit [routeTree.gen.ts](src/app/routeTree.gen.ts) or anything under [src/shared/api/graphql/gql](src/shared/api/graphql/gql).
+
+## GraphQL
+
+The client uses [urql](https://nearform.com/open-source/urql/) with documents typed by [GraphQL Code Generator](https://the-guild.dev/graphql/codegen) (`@graphql-codegen/client-preset`).
+
+- The urql client and the generated `graphql` tag are exposed by the `~/shared/api/graphql` segment. Import from there, never from internal files.
+- `UrqlProvider` is wired in [Providers.tsx](src/app/providers/Providers.tsx).
+
+- The schema is read from `../server/src/schema.gql`. Regenerate after any schema or document change:
+
+  ```sh
+  bun run codegen        # one-off
+  bun run codegen:watch  # watch mode
+  ```
+
+- Output goes to `src/shared/api/graphql/gql/`. It is ignored by oxlint/oxfmt and marked `@ts-nocheck` by codegen.
 
 <!-- HEROUI-REACT-AGENTS-MD-START -->
 

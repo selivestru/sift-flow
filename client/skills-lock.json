@@ -6,6 +6,12 @@
       "sourceType": "github",
       "skillPath": "feature-sliced-design/SKILL.md",
       "computedHash": "c82f20352d839903cff4cd4d686eca7fa2d2d22a0434e9ee63d3f20f182cd93d"
+    },
+    "grill-me": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/productivity/grill-me/SKILL.md",
+      "computedHash": "9cdbb4b8f7a3aeaef82e6230c9e823500d4a8a1214c726cf342cf9829d34fc7d"
     }
   }
 }

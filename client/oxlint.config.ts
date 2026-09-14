@@ -1,7 +1,7 @@
 import { defineConfig } from 'oxlint'
 
 export default defineConfig({
-  ignorePatterns: ['src/shared/api/graphql'],
+  ignorePatterns: ['src/shared/api/graphql/gql'],
   plugins: ['react', 'typescript', 'oxc'],
   rules: {
     'react/rules-of-hooks': 'error',

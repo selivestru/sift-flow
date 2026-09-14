@@ -1,10 +1,13 @@
 import { MotionProvider } from './MotionProvider'
 import { TanstackRouterProvider } from './TanstackRouterProvider'
+import { UrqlProvider } from './UrqlProvider'
 
 export const Providers = () => {
   return (
     <MotionProvider>
-      <TanstackRouterProvider />
+      <UrqlProvider>
+        <TanstackRouterProvider />
+      </UrqlProvider>
     </MotionProvider>
   )
 }

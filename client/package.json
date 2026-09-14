@@ -8,6 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "format": "oxfmt",
+    "codegen": "graphql-codegen --config codegen.ts",
+    "codegen:watch": "graphql-codegen --config codegen.ts --watch",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -20,17 +22,21 @@
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/react-router": "^1.170.32",
     "cn": "^0.2.6",
+    "graphql": "^17.0.2",
     "immer": "^11.1.18",
     "motion": "^13.2.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-hook-form": "^7.87.0",
     "tailwindcss": "^4.3.3",
+    "urql": "^5.0.4",
     "zod": "^4.5.4",
     "zustand": "^5.0.15"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
+    "@graphql-codegen/cli": "^7.4.1",
+    "@graphql-codegen/client-preset": "^6.2.0",
     "@rolldown/plugin-babel": "^0.2.3",
     "@tanstack/router-plugin": "^1.168.35",
     "@types/babel__core": "^7.20.5",

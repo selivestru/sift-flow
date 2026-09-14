@@ -3,10 +3,11 @@ import { ConfigService } from '@nestjs/config'
 import { Reflector } from '@nestjs/core'
 import { GqlExecutionContext } from '@nestjs/graphql'
 
-import { IS_PUBLIC_KEY } from '~/common/decorators/public.decorator.js'
-import { GraphQLContext } from '~/common/types/graphql.types.js'
 import { EnvConfig } from '~/config/env.config.js'
 import { PrismaService } from '~/infrastructure/prisma/prisma.service.js'
+
+import { IS_PUBLIC_KEY } from '../decorators/public.decorator.js'
+import { GraphQLContext } from '../types/graphql.types.js'
 
 @Injectable()
 export class SessionAuthGuard implements CanActivate {
