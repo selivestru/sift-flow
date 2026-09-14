@@ -10,7 +10,7 @@ export const Route = createFileRoute('/auth/login')({
 function RouteComponent() {
   return (
     <Form aria-label="Login" className="flex w-full flex-col gap-4">
-      <TextField name="email" isRequired fullWidth>
+      <TextField name="email" fullWidth>
         <Label>Email</Label>
         <Input
           variant="secondary"

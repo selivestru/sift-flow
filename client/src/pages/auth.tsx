@@ -22,7 +22,9 @@ export const Route = createFileRoute('/auth')({
 function AuthLayout() {
   const navigate = useNavigate()
 
-  const pathname = useRouterState({ select: (state) => state.location.pathname })
+  const pathname = useRouterState({
+    select: (state) => state.location.pathname,
+  })
   const selectedKey = pathname === '/auth/register' ? REGISTER_KEY : LOGIN_KEY
 
   const onTabChange = (key: Key) => {

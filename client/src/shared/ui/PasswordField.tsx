@@ -20,7 +20,7 @@ export const PasswordField = ({
   const [isVisible, setIsVisible] = useState(false)
 
   return (
-    <TextField name={name} isRequired fullWidth>
+    <TextField name={name} fullWidth>
       <Label>{label}</Label>
       <InputGroup variant={variant}>
         <InputGroup.Input

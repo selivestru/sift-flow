@@ -10,11 +10,11 @@ export const Route = createFileRoute('/auth/register')({
 function RouteComponent() {
   return (
     <Form aria-label="Register" className="flex w-full flex-col gap-4">
-      <TextField name="fullName" isRequired fullWidth>
+      <TextField name="fullName" fullWidth>
         <Label>Full name</Label>
         <Input variant="secondary" type="text" autoComplete="name" placeholder="Jane Doe" />
       </TextField>
-      <TextField name="email" isRequired fullWidth>
+      <TextField name="email" fullWidth>
         <Label>Email</Label>
         <Input
           variant="secondary"
