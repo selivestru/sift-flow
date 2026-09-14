@@ -1,6 +1,9 @@
 import { Button, Card, Separator, Typography } from '@heroui/react'
+import { msg } from '@lingui/core/macro'
+import { Trans, useLingui } from '@lingui/react/macro'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
+import { LanguageSwitcher } from '~/features/language-switcher'
 import { LogoMark } from '~/shared/ui/LogoMark'
 
 export const Route = createFileRoute('/')({
@@ -9,19 +12,16 @@ export const Route = createFileRoute('/')({
 
 const FEATURES = [
   {
-    title: 'Boards and lists',
-    description:
-      'Group work into boards, lists and cards. Drag anything anywhere — the structure follows your process, not the other way around.',
+    title: msg`Boards and lists`,
+    description: msg`Group work into boards, lists and cards. Drag anything anywhere — the structure follows your process, not the other way around.`,
   },
   {
-    title: 'Real-time collaboration',
-    description:
-      'Every change lands on your teammates screens instantly. No refresh, no lost edits, no merge conflicts.',
+    title: msg`Real-time collaboration`,
+    description: msg`Every change lands on your teammates screens instantly. No refresh, no lost edits, no merge conflicts.`,
   },
   {
-    title: 'Built for focus',
-    description:
-      'Filter by assignee, label or due date, and keep the noise out of the way until it actually needs attention.',
+    title: msg`Built for focus`,
+    description: msg`Filter by assignee, label or due date, and keep the noise out of the way until it actually needs attention.`,
   },
 ] as const
 
@@ -35,7 +35,12 @@ function SiteHeader() {
           <LogoMark />
           <span className="text-lg font-semibold tracking-tight">SiftFlow</span>
         </div>
-        <Button onPress={() => navigate({ to: '/auth/login' })}>Log in</Button>
+        <div className="flex items-center gap-2">
+          <LanguageSwitcher />
+          <Button onPress={() => navigate({ to: '/auth/login' })}>
+            <Trans>Log in</Trans>
+          </Button>
+        </div>
       </div>
     </header>
   )
@@ -50,18 +55,20 @@ function Hero() {
         className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl"
         type="h1"
       >
-        Where your team&apos;s work flows
+        <Trans>Where your team&apos;s work flows</Trans>
       </Typography>
       <Typography className="mt-6 max-w-2xl" color="muted" type="body">
-        SiftFlow is a real-time collaborative workspace for planning, tracking and shipping work
-        together — boards, tasks and progress in one shared place.
+        <Trans>
+          SiftFlow is a real-time collaborative workspace for planning, tracking and shipping work
+          together — boards, tasks and progress in one shared place.
+        </Trans>
       </Typography>
       <div className="mt-10 flex flex-wrap gap-3">
         <Button size="lg" onPress={() => navigate({ to: '/auth/register' })}>
-          Create account
+          <Trans>Create account</Trans>
         </Button>
         <Button size="lg" variant="outline" onPress={() => navigate({ to: '/auth/login' })}>
-          Log in
+          <Trans>Log in</Trans>
         </Button>
       </div>
     </section>
@@ -69,18 +76,20 @@ function Hero() {
 }
 
 function Features() {
+  const { i18n } = useLingui()
+
   return (
     <section className="border-separator border-t">
       <div className="mx-auto w-full max-w-6xl px-6 py-20">
         <Typography className="text-3xl font-semibold tracking-tight" type="h2">
-          Everything a board needs
+          <Trans>Everything a board needs</Trans>
         </Typography>
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {FEATURES.map((feature) => (
-            <Card key={feature.title} variant="secondary">
+            <Card key={feature.title.id} variant="secondary">
               <Card.Header>
-                <Card.Title>{feature.title}</Card.Title>
-                <Card.Description>{feature.description}</Card.Description>
+                <Card.Title>{i18n.t(feature.title)}</Card.Title>
+                <Card.Description>{i18n.t(feature.description)}</Card.Description>
               </Card.Header>
             </Card>
           ))}
@@ -100,7 +109,7 @@ function SiteFooter() {
           <span className="font-semibold tracking-tight">SiftFlow</span>
         </div>
         <Typography color="muted" type="body-xs">
-          © 2026 SiftFlow
+          <Trans>© 2026 SiftFlow</Trans>
         </Typography>
       </div>
     </footer>

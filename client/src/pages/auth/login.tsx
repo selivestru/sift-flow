@@ -1,4 +1,5 @@
 import { Button, FieldError, Form, Input, Label, TextField } from '@heroui/react'
+import { Trans, useLingui } from '@lingui/react/macro'
 import { createFileRoute } from '@tanstack/react-router'
 import { Controller } from 'react-hook-form'
 
@@ -10,11 +11,12 @@ export const Route = createFileRoute('/auth/login')({
 })
 
 function RouteComponent() {
+  const { t, i18n } = useLingui()
   const { form, submit, isSubmitting, serverError } = useLoginForm()
 
   return (
     <Form
-      aria-label="Login"
+      aria-label={t`Login`}
       className="flex w-full flex-col gap-4"
       validationBehavior="aria"
       onSubmit={submit}
@@ -30,7 +32,9 @@ function RouteComponent() {
             isInvalid={Boolean(fieldState.error)}
             onChange={field.onChange}
           >
-            <Label>Email</Label>
+            <Label>
+              <Trans>Email</Trans>
+            </Label>
             <Input
               variant="secondary"
               type="email"
@@ -48,9 +52,9 @@ function RouteComponent() {
           <PasswordField
             variant="secondary"
             name="password"
-            label="Password"
+            label={t`Password`}
             autoComplete="current-password"
-            placeholder="Enter your password"
+            placeholder={t`Enter your password`}
             value={field.value}
             isInvalid={Boolean(fieldState.error)}
             errorMessage={fieldState.error?.message}
@@ -60,11 +64,11 @@ function RouteComponent() {
       />
       {serverError && (
         <p role="alert" className="text-danger px-1 text-sm">
-          {serverError}
+          {i18n.t(serverError)}
         </p>
       )}
       <Button type="submit" fullWidth isPending={isSubmitting}>
-        Log in
+        <Trans>Log in</Trans>
       </Button>
     </Form>
   )

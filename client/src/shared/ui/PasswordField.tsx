@@ -1,4 +1,5 @@
 import { Button, FieldError, InputGroup, Label, TextField, type InputProps } from '@heroui/react'
+import { useLingui } from '@lingui/react/macro'
 import { useState } from 'react'
 import { Eye, EyeOff2 } from 'reicon-react'
 
@@ -27,6 +28,7 @@ export const PasswordField = ({
   errorMessage,
   onChange,
 }: PasswordFieldProps) => {
+  const { t } = useLingui()
   const [isVisible, setIsVisible] = useState(false)
 
   return (
@@ -42,7 +44,7 @@ export const PasswordField = ({
           <Button
             type="button"
             isIconOnly
-            aria-label={isVisible ? 'Hide password' : 'Show password'}
+            aria-label={isVisible ? t`Hide password` : t`Show password`}
             size="sm"
             variant="ghost"
             onPress={() => setIsVisible((prev) => !prev)}

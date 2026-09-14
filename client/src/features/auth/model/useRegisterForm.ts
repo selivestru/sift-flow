@@ -1,6 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import type { MessageDescriptor } from '@lingui/core'
+import { useLingui } from '@lingui/react'
 import { useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useMutation } from 'urql'
 
@@ -18,7 +20,8 @@ import { type RegisterFormValues, registerFormSchema } from './schemas'
 
 export const useRegisterForm = () => {
   const navigate = useNavigate()
-  const [serverError, setServerError] = useState<string | null>(null)
+  const { i18n } = useLingui()
+  const [serverError, setServerError] = useState<MessageDescriptor | null>(null)
   const [mutationState, executeRegister] = useMutation(RegisterDocument)
 
   const form = useForm<RegisterFormValues>({
@@ -31,14 +34,22 @@ export const useRegisterForm = () => {
     resolver: zodResolver(registerFormSchema),
   })
 
-  const submit = form.handleSubmit(async (values) => {
+  const { isSubmitted } = form.formState
+
+  useEffect(() => {
+    if (isSubmitted) {
+      form.trigger()
+    }
+  }, [i18n.locale, isSubmitted, form])
+
+  const submit = form.handleSubmit(async ({ confirmPassword: _, ...values }) => {
     setServerError(null)
 
     const result = await executeAuthMutation(() => executeRegister({ input: values }))
 
     if (result.error) {
       if (hasAuthErrorCode(result.error, 'EMAIL_ALREADY_REGISTERED')) {
-        form.setError('email', { message: EMAIL_TAKEN_MESSAGE })
+        form.setError('email', { message: i18n.t(EMAIL_TAKEN_MESSAGE) })
 
         return
       }
@@ -58,7 +69,7 @@ export const useRegisterForm = () => {
 
     useAuthStore.getState().setUser(user)
 
-    await navigate({ to: '/test' })
+    navigate({ to: '/onboarding' })
   })
 
   return { form, submit, isSubmitting: mutationState.fetching, serverError }

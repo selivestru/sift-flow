@@ -12,7 +12,7 @@ import { Route as rootRouteImport } from './../pages/__root'
 import { Route as IndexRouteImport } from './../pages/index'
 import { Route as AuthenticatedRouteImport } from './../pages/_authenticated'
 import { Route as AuthRouteImport } from './../pages/auth'
-import { Route as AuthenticatedTestRouteImport } from './../pages/_authenticated/test'
+import { Route as AuthenticatedOnboardingRouteImport } from './../pages/_authenticated/onboarding'
 import { Route as AuthIndexRouteImport } from './../pages/auth/index'
 import { Route as AuthLoginRouteImport } from './../pages/auth/login'
 import { Route as AuthRegisterRouteImport } from './../pages/auth/register'
@@ -31,9 +31,9 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedTestRoute = AuthenticatedTestRouteImport.update({
-  id: '/test',
-  path: '/test',
+const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthIndexRoute = AuthIndexRouteImport.update({
@@ -55,14 +55,14 @@ const AuthRegisterRoute = AuthRegisterRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteWithChildren
-  '/test': typeof AuthenticatedTestRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/': typeof AuthIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/test': typeof AuthenticatedTestRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth': typeof AuthIndexRoute
@@ -72,7 +72,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/auth': typeof AuthRouteWithChildren
-  '/_authenticated/test': typeof AuthenticatedTestRoute
+  '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/': typeof AuthIndexRoute
@@ -80,15 +80,15 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/test' | '/auth/login' | '/auth/register' | '/auth/'
+    '/' | '/auth' | '/onboarding' | '/auth/login' | '/auth/register' | '/auth/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/test' | '/auth/login' | '/auth/register' | '/auth'
+  to: '/' | '/onboarding' | '/auth/login' | '/auth/register' | '/auth'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
-    | '/_authenticated/test'
+    | '/_authenticated/onboarding'
     | '/auth/login'
     | '/auth/register'
     | '/auth/'
@@ -123,11 +123,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/test': {
-      id: '/_authenticated/test'
-      path: '/test'
-      fullPath: '/test'
-      preLoaderRoute: typeof AuthenticatedTestRouteImport
+    '/_authenticated/onboarding': {
+      id: '/_authenticated/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/auth/': {
@@ -155,11 +155,11 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteChildren {
-  AuthenticatedTestRoute: typeof AuthenticatedTestRoute
+  AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedTestRoute: AuthenticatedTestRoute,
+  AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

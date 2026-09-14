@@ -1,0 +1,208 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-14 13:24+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: uk\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/features/auth/model/schemas.ts:15
+msgid "{PASSWORD_MIN_LENGTH, plural, one {Password must be at least # character} other {Password must be at least # characters}}"
+msgstr "{PASSWORD_MIN_LENGTH, plural, one {Пароль має містити щонайменше # символ} few {Пароль має містити щонайменше # символи} many {Пароль має містити щонайменше # символів} other {Пароль має містити щонайменше # символа}}"
+
+#: src/pages/index.tsx:112
+msgid "© 2026 SiftFlow"
+msgstr "© 2026 SiftFlow"
+
+#: src/pages/auth.tsx:56
+msgid "Authentication"
+msgstr "Автентифікація"
+
+#: src/pages/index.tsx:15
+msgid "Boards and lists"
+msgstr "Дошки та списки"
+
+#: src/pages/index.tsx:23
+msgid "Built for focus"
+msgstr "Створено для зосередженості"
+
+#: src/features/language-switcher/ui/LanguageSwitcher.tsx:31
+msgid "Change language"
+msgstr "Змінити мову"
+
+#: src/pages/auth/register.tsx:91
+msgid "Confirm password"
+msgstr "Підтвердіть пароль"
+
+#: src/pages/auth/register.tsx:93
+msgid "Confirm your password"
+msgstr "Підтвердіть свій пароль"
+
+#: src/pages/auth/register.tsx:76
+msgid "Create a password"
+msgstr "Створіть пароль"
+
+#: src/pages/auth/register.tsx:107
+#: src/pages/index.tsx:68
+msgid "Create account"
+msgstr "Створити акаунт"
+
+#: src/pages/auth/login.tsx:36
+#: src/pages/auth/register.tsx:55
+msgid "Email"
+msgstr "Електронна пошта"
+
+#: src/features/auth/model/schemas.ts:11
+msgid "Email is required"
+msgstr "Вкажіть електронну пошту"
+
+#: src/features/auth/model/schemas.ts:12
+msgid "Email must be at most {MAX_EMAIL_LENGTH} characters"
+msgstr "Електронна пошта має містити не більше {MAX_EMAIL_LENGTH} символів"
+
+#: src/pages/auth/login.tsx:57
+msgid "Enter your password"
+msgstr "Введіть свій пароль"
+
+#: src/pages/index.tsx:20
+msgid "Every change lands on your teammates screens instantly. No refresh, no lost edits, no merge conflicts."
+msgstr "Кожна зміна миттєво з'являється на екранах ваших колег. Без оновлення, без втрачених правок, без конфліктів злиття."
+
+#: src/pages/index.tsx:85
+msgid "Everything a board needs"
+msgstr "Усе, що потрібно дошці"
+
+#: src/pages/index.tsx:24
+msgid "Filter by assignee, label or due date, and keep the noise out of the way until it actually needs attention."
+msgstr "Фільтруйте за виконавцем, міткою чи терміном і тримайте зайве подалі, доки воно справді не потребує уваги."
+
+#: src/pages/auth/register.tsx:36
+msgid "Full name"
+msgstr "Повне ім'я"
+
+#: src/features/auth/model/schemas.ts:24
+msgid "Full name is required"
+msgstr "Вкажіть повне ім'я"
+
+#: src/features/auth/model/schemas.ts:25
+msgid "Full name must be at most {MAX_FULL_NAME_LENGTH} characters"
+msgstr "Повне ім'я має містити не більше {MAX_FULL_NAME_LENGTH} символів"
+
+#: src/pages/index.tsx:16
+msgid "Group work into boards, lists and cards. Drag anything anywhere — the structure follows your process, not the other way around."
+msgstr "Групуйте роботу в дошки, списки й картки. Перетягуйте будь-що будь-куди — структура підлаштовується під ваш процес, а не навпаки."
+
+#: src/shared/ui/PasswordField.tsx:47
+msgid "Hide password"
+msgstr "Приховати пароль"
+
+#: src/features/auth/model/errors.ts:11
+msgid "Invalid email or password"
+msgstr "Невірна пошта або пароль"
+
+#: src/pages/auth/login.tsx:71
+#: src/pages/index.tsx:41
+#: src/pages/index.tsx:71
+msgid "Log in"
+msgstr "Увійти"
+
+#: src/pages/auth.tsx:58
+#: src/pages/auth/login.tsx:19
+msgid "Login"
+msgstr "Вхід"
+
+#: src/pages/auth/register.tsx:74
+msgid "New password"
+msgstr "Новий пароль"
+
+#: src/pages/auth/login.tsx:55
+msgid "Password"
+msgstr "Пароль"
+
+#: src/features/auth/model/schemas.ts:14
+msgid "Password is required"
+msgstr "Введіть пароль"
+
+#: src/features/auth/model/schemas.ts:21
+msgid "Password must be at most {MAX_PASSWORD_LENGTH} characters"
+msgstr "Пароль має містити не більше {MAX_PASSWORD_LENGTH} символів"
+
+#: src/features/auth/model/schemas.ts:23
+msgid "Password must contain at least one digit"
+msgstr "Пароль має містити щонайменше одну цифру"
+
+#: src/features/auth/model/schemas.ts:22
+msgid "Password must contain at least one letter"
+msgstr "Пароль має містити щонайменше одну літеру"
+
+#: src/features/auth/model/schemas.ts:27
+msgid "Passwords do not match"
+msgstr "Паролі не збігаються"
+
+#: src/features/auth/model/errors.ts:13
+msgid "Please check your input and try again"
+msgstr "Перевірте введені дані та спробуйте ще раз"
+
+#: src/features/auth/model/schemas.ts:26
+msgid "Please confirm your password"
+msgstr "Будь ласка, підтвердіть пароль"
+
+#: src/features/auth/model/schemas.ts:13
+msgid "Please enter a valid email address"
+msgstr "Введіть коректну адресу електронної пошти"
+
+#: src/pages/index.tsx:19
+msgid "Real-time collaboration"
+msgstr "Спільна робота в реальному часі"
+
+#: src/pages/auth.tsx:62
+#: src/pages/auth/register.tsx:19
+msgid "Register"
+msgstr "Реєстрація"
+
+#: src/shared/ui/PasswordField.tsx:47
+msgid "Show password"
+msgstr "Показати пароль"
+
+#: src/pages/index.tsx:61
+msgid "SiftFlow is a real-time collaborative workspace for planning, tracking and shipping work together — boards, tasks and progress in one shared place."
+msgstr "SiftFlow — це робочий простір для спільної роботи в реальному часі: плануйте, відстежуйте й випускайте роботу разом — дошки, завдання та прогрес в одному місці."
+
+#: src/features/auth/model/errors.ts:6
+msgid "Something went wrong. Please try again"
+msgstr "Щось пішло не так. Спробуйте ще раз"
+
+#: src/features/auth/model/errors.ts:4
+msgid "This email is already registered"
+msgstr "Ця електронна пошта вже зареєстрована"
+
+#: src/features/auth/model/errors.ts:17
+msgid "Too many attempts. Please wait a minute and try again"
+msgstr "Занадто багато спроб. Зачекайте хвилину та спробуйте ще раз"
+
+#: src/features/auth/model/errors.ts:8
+msgid "Unable to reach the server. Please check your connection and try again"
+msgstr "Не вдалося зв'язатися із сервером. Перевірте з'єднання та спробуйте ще раз"
+
+#: src/pages/index.tsx:58
+msgid "Where your team's work flows"
+msgstr "Там, де тече робота вашої команди"
+
+#: src/features/auth/model/errors.ts:16
+msgid "You are not logged in"
+msgstr "Ви не увійшли в систему"
+
+#: src/features/auth/model/errors.ts:15
+msgid "Your session has expired. Please log in again"
+msgstr "Ваш сеанс завершився. Увійдіть знову"
+
+#: src/features/auth/model/errors.ts:14
+msgid "Your session has expired. Please refresh the page and try again"
+msgstr "Ваш сеанс завершився. Оновіть сторінку та спробуйте ще раз"

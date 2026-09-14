@@ -1,6 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import type { MessageDescriptor } from '@lingui/core'
+import { useLingui } from '@lingui/react'
 import { useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useMutation } from 'urql'
 
@@ -13,7 +15,8 @@ import { type LoginFormValues, loginFormSchema } from './schemas'
 
 export const useLoginForm = () => {
   const navigate = useNavigate()
-  const [serverError, setServerError] = useState<string | null>(null)
+  const { i18n } = useLingui()
+  const [serverError, setServerError] = useState<MessageDescriptor | null>(null)
   const [mutationState, executeLogin] = useMutation(LoginDocument)
 
   const form = useForm<LoginFormValues>({
@@ -23,6 +26,14 @@ export const useLoginForm = () => {
     },
     resolver: zodResolver(loginFormSchema),
   })
+
+  const { isSubmitted } = form.formState
+
+  useEffect(() => {
+    if (isSubmitted) {
+      form.trigger()
+    }
+  }, [i18n.locale, isSubmitted, form])
 
   const submit = form.handleSubmit(async (values) => {
     setServerError(null)
@@ -45,7 +56,7 @@ export const useLoginForm = () => {
 
     useAuthStore.getState().setUser(user)
 
-    await navigate({ to: '/test' })
+    navigate({ to: '/onboarding' })
   })
 
   return { form, submit, isSubmitting: mutationState.fetching, serverError }
