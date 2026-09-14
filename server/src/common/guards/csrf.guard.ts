@@ -1,8 +1,10 @@
 import { timingSafeEqual } from 'node:crypto'
 
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common'
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
 
+import { codedException } from '../errors/coded.exception.js'
+import { ErrorCode } from '../errors/error-code.js'
 import { GraphQLContext } from '../types/graphql.types.js'
 
 export const CSRF_HEADER_NAME = 'x-csrf-token'
@@ -15,7 +17,7 @@ export class CsrfGuard implements CanActivate {
     const { req } = ctx.getContext<GraphQLContext>()
 
     if (!req?.session) {
-      throw new ForbiddenException('Invalid CSRF token')
+      throw codedException(ErrorCode.INVALID_CSRF_TOKEN)
     }
 
     const expected = req.session?.csrfToken
@@ -23,7 +25,7 @@ export class CsrfGuard implements CanActivate {
     const actual = Array.isArray(header) ? header[0] : header
 
     if (!expected || !actual || !this.safeEqual(actual, expected)) {
-      throw new ForbiddenException('Invalid CSRF token')
+      throw codedException(ErrorCode.INVALID_CSRF_TOKEN)
     }
 
     return true

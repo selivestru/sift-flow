@@ -7,6 +7,8 @@ import {
   useRouterState,
 } from '@tanstack/react-router'
 
+import { LogoMark } from '~/shared/ui/LogoMark'
+
 const LOGIN_KEY = 'login'
 const REGISTER_KEY = 'register'
 
@@ -21,10 +23,8 @@ export const Route = createFileRoute('/auth')({
 
 function AuthLayout() {
   const navigate = useNavigate()
+  const pathname = useRouterState({ select: (state) => state.location.pathname })
 
-  const pathname = useRouterState({
-    select: (state) => state.location.pathname,
-  })
   const selectedKey = pathname === '/auth/register' ? REGISTER_KEY : LOGIN_KEY
 
   const onTabChange = (key: Key) => {
@@ -39,6 +39,10 @@ function AuthLayout() {
     <main className="bg-background grid min-h-dvh place-items-center gap-6 px-4">
       <Card className="w-full max-w-sm">
         <Card.Header>
+          <Card.Title className="mb-4 flex items-center justify-center gap-2">
+            <LogoMark />
+            <span className="text-lg font-semibold tracking-tight">SiftFlow</span>
+          </Card.Title>
           <Tabs selectedKey={selectedKey} className="" onSelectionChange={onTabChange}>
             <Tabs.ListContainer>
               <Tabs.List aria-label="Authentication">

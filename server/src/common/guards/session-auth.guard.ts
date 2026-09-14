@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common'
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Reflector } from '@nestjs/core'
 import { GqlExecutionContext } from '@nestjs/graphql'
@@ -7,6 +7,8 @@ import { EnvConfig } from '~/config/env.config.js'
 import { PrismaService } from '~/infrastructure/prisma/prisma.service.js'
 
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator.js'
+import { codedException } from '../errors/coded.exception.js'
+import { ErrorCode } from '../errors/error-code.js'
 import { GraphQLContext } from '../types/graphql.types.js'
 
 @Injectable()
@@ -29,13 +31,13 @@ export class SessionAuthGuard implements CanActivate {
     const req = gql?.req
 
     if (!req?.session) {
-      throw new UnauthorizedException('Not authenticated')
+      throw codedException(ErrorCode.NOT_AUTHENTICATED)
     }
 
     const userId = req.session?.userId
 
     if (!userId) {
-      throw new UnauthorizedException('Not authenticated')
+      throw codedException(ErrorCode.NOT_AUTHENTICATED)
     }
 
     const absoluteMax = this.config.get('SESSION_ABSOLUTE_MAX_AGE_MS', {
@@ -49,7 +51,7 @@ export class SessionAuthGuard implements CanActivate {
         req.session.destroy(resolve)
       })
 
-      throw new UnauthorizedException('Session expired')
+      throw codedException(ErrorCode.SESSION_EXPIRED)
     }
 
     const user = await this.prisma.user.findUnique({
@@ -58,7 +60,7 @@ export class SessionAuthGuard implements CanActivate {
     })
 
     if (!user) {
-      throw new UnauthorizedException('Not authenticated')
+      throw codedException(ErrorCode.NOT_AUTHENTICATED)
     }
 
     req.user = user

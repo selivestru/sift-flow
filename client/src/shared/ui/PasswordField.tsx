@@ -1,6 +1,8 @@
-import { Button, InputGroup, Label, TextField, type InputProps } from '@heroui/react'
+import { Button, FieldError, InputGroup, Label, TextField, type InputProps } from '@heroui/react'
 import { useState } from 'react'
 import { Eye, EyeOff2 } from 'reicon-react'
+
+type TextFieldProps = React.ComponentProps<typeof TextField>
 
 interface PasswordFieldProps {
   name: string
@@ -8,6 +10,10 @@ interface PasswordFieldProps {
   autoComplete: string
   placeholder?: string
   variant?: InputProps['variant']
+  value?: TextFieldProps['value']
+  isInvalid?: boolean
+  errorMessage?: string
+  onChange?: TextFieldProps['onChange']
 }
 
 export const PasswordField = ({
@@ -16,11 +22,15 @@ export const PasswordField = ({
   autoComplete,
   placeholder,
   variant,
+  value,
+  isInvalid,
+  errorMessage,
+  onChange,
 }: PasswordFieldProps) => {
   const [isVisible, setIsVisible] = useState(false)
 
   return (
-    <TextField name={name} fullWidth>
+    <TextField name={name} fullWidth value={value} isInvalid={isInvalid} onChange={onChange}>
       <Label>{label}</Label>
       <InputGroup variant={variant}>
         <InputGroup.Input
@@ -41,6 +51,7 @@ export const PasswordField = ({
           </Button>
         </InputGroup.Suffix>
       </InputGroup>
+      {errorMessage && <FieldError>{errorMessage}</FieldError>}
     </TextField>
   )
 }

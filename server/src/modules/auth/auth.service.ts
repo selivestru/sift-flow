@@ -1,15 +1,12 @@
 import { randomBytes } from 'node:crypto'
 
-import {
-  ConflictException,
-  Injectable,
-  InternalServerErrorException,
-  UnauthorizedException,
-} from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import * as argon2 from 'argon2'
 import type { Response } from 'express'
 
+import { codedException } from '~/common/errors/coded.exception.js'
+import { ErrorCode } from '~/common/errors/error-code.js'
 import type { SessionRequest } from '~/common/types/session.types.js'
 import { pick } from '~/common/utils/pick.js'
 import type { EnvConfig } from '~/config/env.config.js'
@@ -33,7 +30,7 @@ export class AuthService {
     const existing = await this.prismaService.user.findUnique({ where: { email } })
 
     if (existing) {
-      throw new ConflictException('Email already registered')
+      throw codedException(ErrorCode.EMAIL_ALREADY_REGISTERED)
     }
 
     const hash = await argon2.hash(password, { type: argon2.argon2id })
@@ -46,7 +43,7 @@ export class AuthService {
       })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
-        throw new ConflictException('Email already registered')
+        throw codedException(ErrorCode.EMAIL_ALREADY_REGISTERED)
       }
 
       throw error
@@ -69,7 +66,7 @@ export class AuthService {
     const user = await this.prismaService.user.findUnique({ where: { email } })
 
     if (!user || !(await argon2.verify(user.password, password))) {
-      throw new UnauthorizedException('Invalid credentials')
+      throw codedException(ErrorCode.INVALID_CREDENTIALS)
     }
 
     const csrfToken = req.session.csrfToken
@@ -126,7 +123,12 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       req.session.regenerate((err) => {
         if (err) {
-          reject(new InternalServerErrorException('Failed to save session, please try again'))
+          reject(
+            codedException(
+              ErrorCode.INTERNAL_SERVER_ERROR,
+              'Failed to save session, please try again',
+            ),
+          )
           return
         }
 

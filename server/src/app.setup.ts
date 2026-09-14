@@ -7,6 +7,8 @@ import type { NextFunction, Request, Response } from 'express'
 import session from 'express-session'
 import helmet from 'helmet'
 
+import { codedException } from './common/errors/coded.exception.js'
+import { ErrorCode } from './common/errors/error-code.js'
 import type { EnvConfig } from './config/env.config.js'
 import { RedisService } from './infrastructure/redis/redis.service.js'
 
@@ -29,7 +31,13 @@ export function configureApp(app: NestExpressApplication): void {
   )
   app.use(cookieParser())
 
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }))
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      exceptionFactory: () => codedException(ErrorCode.VALIDATION_FAILED),
+    }),
+  )
 
   app.use('/graphql', (req: Request, res: Response, next: NextFunction) => {
     if (req.method === 'GET') {
