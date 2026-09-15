@@ -1,12 +1,13 @@
-import { cacheExchange, createClient, fetchExchange } from 'urql'
+import { createClient, fetchExchange } from 'urql'
 
 import { env } from '~/shared/constants/env'
 
+import { graphqlCacheExchange } from './cache'
 import { getCsrfToken } from './csrf'
 
 export const graphqlClient = createClient({
   url: env.VITE_BASE_URL,
-  exchanges: [cacheExchange, fetchExchange],
+  exchanges: [graphqlCacheExchange, fetchExchange],
   fetchOptions: () => {
     const csrfToken = getCsrfToken()
 

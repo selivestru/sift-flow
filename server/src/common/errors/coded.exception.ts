@@ -12,6 +12,34 @@ const ERROR_DETAILS: Record<ErrorCode, { status: HttpStatus; message: string }> 
     status: HttpStatus.CONFLICT,
     message: 'Email already registered',
   },
+  WORKSPACE_SLUG_TAKEN: {
+    status: HttpStatus.CONFLICT,
+    message: 'Workspace slug is already taken',
+  },
+  WORKSPACE_NOT_FOUND: {
+    status: HttpStatus.NOT_FOUND,
+    message: 'Workspace not found',
+  },
+  WORKSPACE_MEMBER_EXISTS: {
+    status: HttpStatus.CONFLICT,
+    message: 'User is already a workspace member',
+  },
+  WORKSPACE_LIMIT_REACHED: {
+    status: HttpStatus.CONFLICT,
+    message: 'Workspace limit reached',
+  },
+  INSUFFICIENT_WORKSPACE_ROLE: {
+    status: HttpStatus.FORBIDDEN,
+    message: 'Workspace role is not sufficient for this action',
+  },
+  INVITATION_NOT_FOUND: {
+    status: HttpStatus.NOT_FOUND,
+    message: 'Invitation not found',
+  },
+  INVITATION_EXPIRED: {
+    status: HttpStatus.GONE,
+    message: 'Invitation expired',
+  },
   TOO_MANY_REQUESTS: { status: HttpStatus.TOO_MANY_REQUESTS, message: 'Too many requests' },
   INTERNAL_SERVER_ERROR: {
     status: HttpStatus.INTERNAL_SERVER_ERROR,

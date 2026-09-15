@@ -1,11 +1,5 @@
 import { graphql } from '~/shared/api/graphql'
 
-export const CsrfTokenDocument = graphql(`
-  query CsrfToken {
-    csrfToken
-  }
-`)
-
 export const MeDocument = graphql(`
   query Me {
     me {

@@ -1,5 +1,13 @@
-import { Button, FieldError, Form, Input, Label, TextField } from '@heroui/react'
-import { Trans, useLingui } from '@lingui/react/macro'
+import {
+  Button,
+  ErrorMessage,
+  FieldError,
+  Form,
+  Input,
+  Label,
+  Spinner,
+  TextField,
+} from '@heroui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { Controller } from 'react-hook-form'
 
@@ -11,12 +19,11 @@ export const Route = createFileRoute('/auth/login')({
 })
 
 function RouteComponent() {
-  const { t, i18n } = useLingui()
   const { form, submit, isSubmitting, serverError } = useLoginForm()
 
   return (
     <Form
-      aria-label={t`Login`}
+      aria-label="Login"
       className="flex w-full flex-col gap-4"
       validationBehavior="aria"
       onSubmit={submit}
@@ -32,9 +39,7 @@ function RouteComponent() {
             isInvalid={Boolean(fieldState.error)}
             onChange={field.onChange}
           >
-            <Label>
-              <Trans>Email</Trans>
-            </Label>
+            <Label>Email</Label>
             <Input
               variant="secondary"
               type="email"
@@ -52,9 +57,9 @@ function RouteComponent() {
           <PasswordField
             variant="secondary"
             name="password"
-            label={t`Password`}
+            label="Password"
             autoComplete="current-password"
-            placeholder={t`Enter your password`}
+            placeholder="Enter your password"
             value={field.value}
             isInvalid={Boolean(fieldState.error)}
             errorMessage={fieldState.error?.message}
@@ -62,13 +67,14 @@ function RouteComponent() {
           />
         )}
       />
-      {serverError && (
-        <p role="alert" className="text-danger px-1 text-sm">
-          {i18n.t(serverError)}
-        </p>
-      )}
+      {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
       <Button type="submit" fullWidth isPending={isSubmitting}>
-        <Trans>Log in</Trans>
+        {({ isPending }) => (
+          <>
+            {isPending && <Spinner color="current" size="sm" />}
+            {isPending ? 'Logging in…' : 'Log in'}
+          </>
+        )}
       </Button>
     </Form>
   )

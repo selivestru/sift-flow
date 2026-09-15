@@ -15,6 +15,7 @@ import { validateEnv } from './config/env.config.js'
 import { PrismaModule } from './infrastructure/prisma/prisma.module.js'
 import { RedisModule } from './infrastructure/redis/redis.module.js'
 import { AuthModule } from './modules/auth/auth.module.js'
+import { WorkspaceModule } from './modules/workspace/workspace.module.js'
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { AuthModule } from './modules/auth/auth.module.js'
     RedisModule,
     PrismaModule,
     AuthModule,
+    WorkspaceModule,
   ],
   controllers: [AppController],
   providers: [

@@ -1,5 +1,13 @@
-import { Button, FieldError, Form, Input, Label, TextField } from '@heroui/react'
-import { Trans, useLingui } from '@lingui/react/macro'
+import {
+  Button,
+  ErrorMessage,
+  FieldError,
+  Form,
+  Input,
+  Label,
+  Spinner,
+  TextField,
+} from '@heroui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { Controller } from 'react-hook-form'
 
@@ -11,12 +19,11 @@ export const Route = createFileRoute('/auth/register')({
 })
 
 function RouteComponent() {
-  const { t, i18n } = useLingui()
   const { form, submit, isSubmitting, serverError } = useRegisterForm()
 
   return (
     <Form
-      aria-label={t`Register`}
+      aria-label="Register"
       className="flex w-full flex-col gap-4"
       validationBehavior="aria"
       onSubmit={submit}
@@ -32,9 +39,7 @@ function RouteComponent() {
             isInvalid={Boolean(fieldState.error)}
             onChange={field.onChange}
           >
-            <Label>
-              <Trans>Full name</Trans>
-            </Label>
+            <Label>Full name</Label>
             <Input variant="secondary" type="text" autoComplete="name" placeholder="Jane Doe" />
             {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
           </TextField>
@@ -51,9 +56,7 @@ function RouteComponent() {
             isInvalid={Boolean(fieldState.error)}
             onChange={field.onChange}
           >
-            <Label>
-              <Trans>Email</Trans>
-            </Label>
+            <Label>Email</Label>
             <Input
               variant="secondary"
               type="email"
@@ -71,9 +74,9 @@ function RouteComponent() {
           <PasswordField
             variant="secondary"
             name="newPassword"
-            label={t`New password`}
+            label="New password"
             autoComplete="new-password"
-            placeholder={t`Create a password`}
+            placeholder="Create a password"
             value={field.value}
             isInvalid={Boolean(fieldState.error)}
             errorMessage={fieldState.error?.message}
@@ -88,9 +91,9 @@ function RouteComponent() {
           <PasswordField
             variant="secondary"
             name="confirmPassword"
-            label={t`Confirm password`}
+            label="Confirm password"
             autoComplete="new-password"
-            placeholder={t`Confirm your password`}
+            placeholder="Confirm your password"
             value={field.value}
             isInvalid={Boolean(fieldState.error)}
             errorMessage={fieldState.error?.message}
@@ -98,13 +101,14 @@ function RouteComponent() {
           />
         )}
       />
-      {serverError && (
-        <p role="alert" className="text-danger px-1 text-sm">
-          {i18n.t(serverError)}
-        </p>
-      )}
+      {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
       <Button type="submit" fullWidth isPending={isSubmitting}>
-        <Trans>Create account</Trans>
+        {({ isPending }) => (
+          <>
+            {isPending && <Spinner color="current" size="sm" />}
+            {isPending ? 'Creating account…' : 'Create account'}
+          </>
+        )}
       </Button>
     </Form>
   )

@@ -1,4 +1,3 @@
-import { lingui, linguiTransformerBabelPreset } from '@lingui/vite-plugin'
 import babel from '@rolldown/plugin-babel'
 import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
@@ -15,8 +14,7 @@ export default defineConfig({
       generatedRouteTree: 'src/app/routeTree.gen.ts',
     }),
     react(),
-    lingui(),
-    babel({ presets: [reactCompilerPreset(), linguiTransformerBabelPreset()] }),
+    babel({ presets: [reactCompilerPreset()] }),
   ],
   resolve: {
     tsconfigPaths: true,

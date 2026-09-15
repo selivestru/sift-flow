@@ -12,10 +12,12 @@ import { Route as rootRouteImport } from './../pages/__root'
 import { Route as IndexRouteImport } from './../pages/index'
 import { Route as AuthenticatedRouteImport } from './../pages/_authenticated'
 import { Route as AuthRouteImport } from './../pages/auth'
+import { Route as AuthenticatedShellRouteImport } from './../pages/_authenticated/_shell'
 import { Route as AuthenticatedOnboardingRouteImport } from './../pages/_authenticated/onboarding'
 import { Route as AuthIndexRouteImport } from './../pages/auth/index'
 import { Route as AuthLoginRouteImport } from './../pages/auth/login'
 import { Route as AuthRegisterRouteImport } from './../pages/auth/register'
+import { Route as AuthenticatedShellWSlugRouteImport } from './../pages/_authenticated/_shell/w.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -30,6 +32,10 @@ const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedShellRoute = AuthenticatedShellRouteImport.update({
+  id: '/_shell',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   id: '/onboarding',
@@ -51,6 +57,11 @@ const AuthRegisterRoute = AuthRegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthenticatedShellWSlugRoute = AuthenticatedShellWSlugRouteImport.update({
+  id: '/w/$slug',
+  path: '/w/$slug',
+  getParentRoute: () => AuthenticatedShellRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -59,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/': typeof AuthIndexRoute
+  '/w/$slug': typeof AuthenticatedShellWSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -66,32 +78,49 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth': typeof AuthIndexRoute
+  '/w/$slug': typeof AuthenticatedShellWSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/auth': typeof AuthRouteWithChildren
+  '/_authenticated/_shell': typeof AuthenticatedShellRouteWithChildren
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/': typeof AuthIndexRoute
+  '/_authenticated/_shell/w/$slug': typeof AuthenticatedShellWSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/onboarding' | '/auth/login' | '/auth/register' | '/auth/'
+    | '/'
+    | '/auth'
+    | '/onboarding'
+    | '/auth/login'
+    | '/auth/register'
+    | '/auth/'
+    | '/w/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/onboarding' | '/auth/login' | '/auth/register' | '/auth'
+  to:
+    | '/'
+    | '/onboarding'
+    | '/auth/login'
+    | '/auth/register'
+    | '/auth'
+    | '/w/$slug'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/_shell'
     | '/_authenticated/onboarding'
     | '/auth/login'
     | '/auth/register'
     | '/auth/'
+    | '/_authenticated/_shell/w/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -123,6 +152,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/_shell': {
+      id: '/_authenticated/_shell'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedShellRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/onboarding': {
       id: '/_authenticated/onboarding'
       path: '/onboarding'
@@ -151,14 +187,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRegisterRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_authenticated/_shell/w/$slug': {
+      id: '/_authenticated/_shell/w/$slug'
+      path: '/w/$slug'
+      fullPath: '/w/$slug'
+      preLoaderRoute: typeof AuthenticatedShellWSlugRouteImport
+      parentRoute: typeof AuthenticatedShellRoute
+    }
   }
 }
 
+interface AuthenticatedShellRouteChildren {
+  AuthenticatedShellWSlugRoute: typeof AuthenticatedShellWSlugRoute
+}
+
+const AuthenticatedShellRouteChildren: AuthenticatedShellRouteChildren = {
+  AuthenticatedShellWSlugRoute: AuthenticatedShellWSlugRoute,
+}
+
+const AuthenticatedShellRouteWithChildren =
+  AuthenticatedShellRoute._addFileChildren(AuthenticatedShellRouteChildren)
+
 interface AuthenticatedRouteChildren {
+  AuthenticatedShellRoute: typeof AuthenticatedShellRouteWithChildren
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedShellRoute: AuthenticatedShellRouteWithChildren,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
 }
 

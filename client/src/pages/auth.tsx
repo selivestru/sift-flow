@@ -1,6 +1,4 @@
 import { Card, Tabs, type Key } from '@heroui/react'
-import { msg } from '@lingui/core/macro'
-import { Trans, useLingui } from '@lingui/react/macro'
 import {
   Outlet,
   createFileRoute,
@@ -9,7 +7,6 @@ import {
   useRouterState,
 } from '@tanstack/react-router'
 
-import { LanguageSwitcher } from '~/features/language-switcher'
 import { LogoMark } from '~/shared/ui/LogoMark'
 
 const LOGIN_KEY = 'login'
@@ -26,7 +23,6 @@ export const Route = createFileRoute('/auth')({
 
 function AuthLayout() {
   const navigate = useNavigate()
-  const { i18n } = useLingui()
   const pathname = useRouterState({ select: (state) => state.location.pathname })
 
   const selectedKey = pathname === '/auth/register' ? REGISTER_KEY : LOGIN_KEY
@@ -42,9 +38,6 @@ function AuthLayout() {
   return (
     <main className="bg-background flex min-h-dvh flex-col px-4 py-6">
       <div className="m-auto flex w-full max-w-sm flex-col gap-3">
-        <div className="flex justify-end">
-          <LanguageSwitcher />
-        </div>
         <Card className="w-full">
           <Card.Header>
             <Card.Title className="mb-4 flex items-center justify-center gap-2">
@@ -53,13 +46,13 @@ function AuthLayout() {
             </Card.Title>
             <Tabs selectedKey={selectedKey} className="" onSelectionChange={onTabChange}>
               <Tabs.ListContainer>
-                <Tabs.List aria-label={i18n.t(msg`Authentication`)}>
+                <Tabs.List aria-label="Authentication">
                   <Tabs.Tab id={LOGIN_KEY}>
-                    <Trans>Login</Trans>
+                    Login
                     <Tabs.Indicator />
                   </Tabs.Tab>
                   <Tabs.Tab id={REGISTER_KEY}>
-                    <Trans>Register</Trans>
+                    Register
                     <Tabs.Indicator />
                   </Tabs.Tab>
                 </Tabs.List>

@@ -269,15 +269,15 @@ One family: **Geist Variable** (`@fontsource-variable/geist`, exposed as `--font
 second family, no serif, no display face. Weight carries hierarchy: 600 for headings and labels,
 400 for body. Headings use `-0.02em` tracking; the landing display size uses `-0.025em`.
 
-| Type       | Size / weight / line height | Where it is used                                  |
-| ---------- | --------------------------- | ------------------------------------------------- |
-| `display`   | 60 / 600 / 1.05             | Landing hero only: 36px < 640px, 48px at `sm`, 60px at `lg`. |
-| `h1`–`h4`  | 36 / 30 / 24 / 20, 600      | Page titles and section headings.                 |
-| `h5`, `h6` | 18 / 16, 600                | Card titles, board and list headers.              |
-| `body-md`  | 16 / 400 / 1.75             | Reading copy: landing lead, descriptions, docs.   |
-| `body-sm`  | 14 / 400 / 1.5              | Controls, menu items, table cells, card text.     |
-| `body-xs`  | 12 / 400 / 1.25             | Captions, timestamps, badges, fine print.         |
-| `code`     | 14 mono                     | Identifiers, tokens, keyboard shortcuts.          |
+| Type       | Size / weight / line height | Where it is used                                             |
+| ---------- | --------------------------- | ------------------------------------------------------------ |
+| `display`  | 60 / 600 / 1.05             | Landing hero only: 36px < 640px, 48px at `sm`, 60px at `lg`. |
+| `h1`–`h4`  | 36 / 30 / 24 / 20, 600      | Page titles and section headings.                            |
+| `h5`, `h6` | 18 / 16, 600                | Card titles, board and list headers.                         |
+| `body-md`  | 16 / 400 / 1.75             | Reading copy: landing lead, descriptions, docs.              |
+| `body-sm`  | 14 / 400 / 1.5              | Controls, menu items, table cells, card text.                |
+| `body-xs`  | 12 / 400 / 1.25             | Captions, timestamps, badges, fine print.                    |
+| `code`     | 14 mono                     | Identifiers, tokens, keyboard shortcuts.                     |
 
 Rules: never below 12px; never use `muted` for anything that must be read at body size; numbers
 that are compared across rows (counts, dates, estimates) are `code` or tabular-aligned so digits
