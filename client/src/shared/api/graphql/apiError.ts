@@ -11,9 +11,11 @@ const ERROR_CODE_MESSAGES = {
   WORKSPACE_LIMIT_REACHED: 'You have reached the limit of 5 owned workspaces',
   WORKSPACE_NOT_FOUND: 'This workspace no longer exists',
   WORKSPACE_MEMBER_EXISTS: 'This person is already in the workspace',
+  WORKSPACE_MEMBER_NOT_FOUND: 'This person is not a member of this workspace',
   INSUFFICIENT_WORKSPACE_ROLE: 'You do not have permission to invite members',
   INVITATION_NOT_FOUND: 'This invitation no longer exists',
   INVITATION_EXPIRED: 'This invitation has expired',
+  INVITATION_EMAIL_MISMATCH: 'This invitation was sent to a different email address',
   INVALID_CSRF_TOKEN: 'Your session has expired. Please refresh the page and try again',
   NOT_AUTHENTICATED: 'You are not logged in',
   SESSION_EXPIRED: 'Your session has expired. Please log in again',
@@ -28,6 +30,9 @@ const errorCodes = (error: CombinedError) =>
 
 const isApiErrorCode = (value: unknown): value is ApiErrorCode =>
   typeof value === 'string' && value in ERROR_CODE_MESSAGES
+
+export const hasApiErrorCode = (error: CombinedError, code: ApiErrorCode) =>
+  errorCodes(error).includes(code)
 
 export const getApiErrorMessage = (error: CombinedError) => {
   if (error.networkError) {

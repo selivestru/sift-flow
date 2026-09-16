@@ -15,4 +15,5 @@ export default defineConfig({
   endOfLine: 'lf',
   sortImports: true,
   sortPackageJson: true,
+  ignorePatterns: ['src/generated/**/*'],
 })

@@ -12,6 +12,9 @@ export const envSchema = z.object({
   SESSION_NAME: z.string().default('sift.sid'),
   SESSION_MAX_AGE_MS: z.coerce.number().default(24 * 60 * 60 * 1000),
   SESSION_ABSOLUTE_MAX_AGE_MS: z.coerce.number().default(7 * 24 * 60 * 60 * 1000),
+
+  RESEND_API_KEY: z.string().min(1),
+  RESEND_FROM_EMAIL: z.string().default('SiftFlow <onboarding@resend.dev>'),
 })
 
 export type EnvConfig = z.infer<typeof envSchema>

@@ -2,12 +2,11 @@ import { ArgsType, Field, ID } from '@nestjs/graphql'
 import { IsOptional, IsString, Matches, MaxLength, MinLength } from 'class-validator'
 
 import { Normalize } from '~/common/decorators/normalize.decorator.js'
-
 import {
   WORKSPACE_SLUG_MAX_LENGTH,
   WORKSPACE_SLUG_MIN_LENGTH,
   WORKSPACE_SLUG_PATTERN,
-} from '../workspace-slug.js'
+} from '~/modules/workspace/core/workspace-slug.js'
 
 @ArgsType()
 export class WorkspaceSlugArgs {

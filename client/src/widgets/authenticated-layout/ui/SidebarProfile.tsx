@@ -15,7 +15,6 @@ export const SidebarProfile = () => {
     if (key !== 'logout') return
 
     useAuthStore.getState().clearUser()
-
     navigate({ to: '/' })
   }
 

@@ -26,24 +26,19 @@ export class AuthResolver {
   @Mutation(() => AuthPayload)
   @Throttle({ default: { limit: 5, ttl: 60_000 } })
   @UseGuards(CsrfGuard)
-  async register(
+  register(
     @Args('input') input: RegisterInput,
     @Context() ctx: GraphQLContext,
   ): Promise<AuthPayload> {
-    const user = await this.authService.register(input, ctx.req)
-    return { user }
+    return this.authService.register(input, ctx.req)
   }
 
   @Public()
   @Mutation(() => AuthPayload)
   @Throttle({ default: { limit: 5, ttl: 60_000 } })
   @UseGuards(CsrfGuard)
-  async login(
-    @Args('input') input: LoginInput,
-    @Context() ctx: GraphQLContext,
-  ): Promise<AuthPayload> {
-    const user = await this.authService.login(input, ctx.req)
-    return { user }
+  login(@Args('input') input: LoginInput, @Context() ctx: GraphQLContext): Promise<AuthPayload> {
+    return this.authService.login(input, ctx.req)
   }
 
   @Mutation(() => Boolean)

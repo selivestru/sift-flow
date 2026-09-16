@@ -2,8 +2,7 @@ import { Typography } from '@heroui/react'
 import { createFileRoute } from '@tanstack/react-router'
 
 import { LogoMark } from '~/shared/ui/LogoMark'
-
-import { OnboardingFlow } from './-ui/OnboardingFlow'
+import { OnboardingFlow } from '~/widgets/onboarding-flow'
 
 export const Route = createFileRoute('/_authenticated/onboarding')({
   component: RouteComponent,
@@ -12,7 +11,7 @@ export const Route = createFileRoute('/_authenticated/onboarding')({
 function RouteComponent() {
   return (
     <div className="bg-background min-h-dvh">
-      <header className="border-separator border-b">
+      <header className="border-separator bg-surface border-b">
         <div className="mx-auto flex h-16 w-full max-w-xl items-center justify-between px-6">
           <div className="flex items-center gap-2.5">
             <LogoMark />

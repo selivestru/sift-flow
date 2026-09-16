@@ -11,15 +11,17 @@ import {
 import { createFileRoute } from '@tanstack/react-router'
 import { Controller } from 'react-hook-form'
 
-import { useLoginForm } from '~/features/auth'
+import { parseInviteSearch, useLoginForm } from '~/features/auth'
 import { PasswordField } from '~/shared/ui/PasswordField'
 
 export const Route = createFileRoute('/auth/login')({
+  validateSearch: parseInviteSearch,
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  const { form, submit, isSubmitting, serverError } = useLoginForm()
+  const { invite } = Route.useSearch()
+  const { form, submit, isSubmitting, serverError } = useLoginForm({ inviteToken: invite })
 
   return (
     <Form

@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { IsEmail, IsString, Matches, MaxLength, MinLength } from 'class-validator'
+import { IsEmail, IsOptional, IsString, Matches, MaxLength, MinLength } from 'class-validator'
 
 import { Trim } from '~/common/decorators/trim.decorator.js'
 
@@ -26,4 +26,12 @@ export class RegisterInput {
   @Matches(/\p{N}/u, { message: 'must contain at least one digit' })
   @Trim()
   password!: string
+
+  @Field(() => String, { nullable: true })
+  @IsOptional()
+  @IsString()
+  @MinLength(16)
+  @MaxLength(128)
+  @Trim()
+  inviteToken?: string
 }

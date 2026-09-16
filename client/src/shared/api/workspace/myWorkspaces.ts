@@ -6,7 +6,7 @@ export const fetchMyWorkspaces = async () => {
   const result = await graphqlClient.query(
     MyWorkspacesDocument,
     {},
-    { requestPolicy: 'network-only' },
+    { requestPolicy: 'cache-first' },
   )
 
   if (result.error) {

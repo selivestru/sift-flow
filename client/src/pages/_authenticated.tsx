@@ -21,7 +21,7 @@ export const Route = createFileRoute('/_authenticated')({
       const workspace = workspaces.find((workspace) => workspace.slug === lastOpenedWorkspace)
       const slug = workspace?.slug ?? workspaces[0].slug
 
-      throw redirect({ to: '/w/$slug', params: { slug } })
+      throw redirect({ to: '/w/$slug/dashboard', params: { slug } })
     }
 
     if (workspaces.length === 0) {

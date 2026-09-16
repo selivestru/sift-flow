@@ -7,12 +7,14 @@ import {
   useRouterState,
 } from '@tanstack/react-router'
 
+import { parseInviteSearch } from '~/features/auth'
 import { LogoMark } from '~/shared/ui/LogoMark'
 
 const LOGIN_KEY = 'login'
 const REGISTER_KEY = 'register'
 
 export const Route = createFileRoute('/auth')({
+  validateSearch: parseInviteSearch,
   beforeLoad: ({ context }) => {
     if (context.auth.isAuthenticated) {
       throw redirect({ to: '/onboarding' })
@@ -23,15 +25,16 @@ export const Route = createFileRoute('/auth')({
 
 function AuthLayout() {
   const navigate = useNavigate()
+  const search = Route.useSearch()
   const pathname = useRouterState({ select: (state) => state.location.pathname })
 
   const selectedKey = pathname === '/auth/register' ? REGISTER_KEY : LOGIN_KEY
 
   const onTabChange = (key: Key) => {
     if (key === LOGIN_KEY) {
-      navigate({ to: '/auth/login' })
+      navigate({ to: '/auth/login', search })
     } else if (key === REGISTER_KEY) {
-      navigate({ to: '/auth/register' })
+      navigate({ to: '/auth/register', search })
     }
   }
 

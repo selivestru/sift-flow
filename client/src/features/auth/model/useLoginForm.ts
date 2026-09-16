@@ -11,7 +11,11 @@ import { LoginDocument } from '../api/documents'
 import { FALLBACK_ERROR_MESSAGE, getAuthErrorMessage } from './errors'
 import { type LoginFormValues, loginFormSchema } from './schemas'
 
-export const useLoginForm = () => {
+interface UseLoginFormOptions {
+  inviteToken?: string
+}
+
+export const useLoginForm = ({ inviteToken }: UseLoginFormOptions) => {
   const navigate = useNavigate()
   const [serverError, setServerError] = useState<string | null>(null)
   const [mutationState, executeLogin] = useMutation(LoginDocument)
@@ -44,6 +48,12 @@ export const useLoginForm = () => {
     }
 
     useAuthStore.getState().setUser(user)
+
+    if (inviteToken) {
+      navigate({ to: '/invite/$token', params: { token: inviteToken } })
+
+      return
+    }
 
     navigate({ to: '/onboarding' })
   })

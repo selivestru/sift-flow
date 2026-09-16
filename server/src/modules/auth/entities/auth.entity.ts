@@ -16,4 +16,7 @@ export class UserType {
 export class AuthPayload {
   @Field(() => UserType)
   user!: UserType
+
+  @Field(() => String, { nullable: true })
+  joinedWorkspaceSlug?: string | null
 }

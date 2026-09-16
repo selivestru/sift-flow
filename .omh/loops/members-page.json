@@ -1,0 +1,26 @@
+{
+  "loop": "members-page",
+  "loop_cycle_v1": {
+    "classification": "project",
+    "bounded_arena": "client members page /w/$slug/members",
+    "observable_problem": "route file was a stub; members management UI missing",
+    "next_verification": "bun run build && bun run lint — PASSED",
+    "permission_profile": "local repo edits, no commit/push, no server changes"
+  },
+  "api_audit_final": {
+    "note": "server working tree changed mid-run; re-audited against current tree",
+    "join_link": "LINK-kind Invitation with role; no enabled toggle; revoke = cancel + new link",
+    "member_details": "projects/assignedTasks always empty on server (no Project/Task models)"
+  },
+  "status_card": {
+    "phase": "verified",
+    "delivered": [
+      "features/members slice (api/model/ui) per user correction: NO logic in pages/",
+      "page composition in w.$slug.members.tsx",
+      "members table with search/role filter, invite modal, pending invites with resend/cancel, join link panel, member drawer",
+      "codegen regenerated; onboarding-flow type error fixed (email nullable)"
+    ],
+    "verification": "tsc -b && vite build PASS, oxlint PASS, oxfmt applied",
+    "known_gaps": ["no member remove button in UI (server supports it)", "presence/online status not in API"]
+  }
+}

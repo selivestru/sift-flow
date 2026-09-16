@@ -1,10 +1,14 @@
-import { Button, Description, Dropdown, Label, Separator, Typography } from '@heroui/react'
+import { Button, Chip, Description, Dropdown, Label, Separator, Typography } from '@heroui/react'
 import { useNavigate, useParams } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Check, ChevronDown, Plus } from 'reicon-react'
 import { useQuery } from 'urql'
 
-import { setLastOpenedWorkspace } from '~/entities/workspace'
+import {
+  setLastOpenedWorkspace,
+  WORKSPACE_ROLE_COLOR,
+  WORKSPACE_ROLE_LABELS,
+} from '~/entities/workspace'
 import { WorkspaceFormModal, type WorkspaceSummary } from '~/features/workspace-form'
 import { MyWorkspacesDocument } from '~/shared/api/workspace'
 
@@ -35,12 +39,12 @@ export const WorkspaceSwitcher = () => {
     }
 
     setLastOpenedWorkspace(String(key))
-    navigate({ to: '/w/$slug', params: { slug: String(key) } })
+    navigate({ to: '/w/$slug/dashboard', params: { slug: String(key) } })
   }
 
   const handleCreated = (workspace: WorkspaceSummary) => {
     setLastOpenedWorkspace(workspace.slug)
-    navigate({ to: '/w/$slug', params: { slug: workspace.slug } })
+    navigate({ to: '/w/$slug/dashboard', params: { slug: workspace.slug } })
   }
 
   return (
@@ -50,14 +54,19 @@ export const WorkspaceSwitcher = () => {
           <span className="bg-surface-secondary border-border flex size-8 shrink-0 items-center justify-center border text-sm font-semibold">
             {getMonogram(activeWorkspace.name)}
           </span>
-          <span className="t-sidebar-label inline-block flex-1 overflow-hidden">
-            <Typography truncate type="body-sm" weight="medium">
-              {activeWorkspace.name}
-            </Typography>
-            <Typography color="muted" truncate type="body-xs">
-              {formatMembers(activeWorkspace.membersCount)}
-            </Typography>
-          </span>
+          <div className="flex items-center gap-1.5 overflow-hidden">
+            <span className="t-sidebar-label inline-block flex-1 overflow-hidden">
+              <Typography truncate type="body-sm" weight="medium">
+                {activeWorkspace.name}
+              </Typography>
+              <Typography color="muted" truncate type="body-xs">
+                {formatMembers(activeWorkspace.membersCount)}
+              </Typography>
+            </span>
+            <Chip variant="soft" size="sm" color={WORKSPACE_ROLE_COLOR[activeWorkspace.role]}>
+              {WORKSPACE_ROLE_LABELS[activeWorkspace.role]}
+            </Chip>
+          </div>
           <ChevronDown className="t-sidebar-label text-muted size-4 shrink-0" />
         </Button>
         <Dropdown.Popover>
@@ -65,7 +74,12 @@ export const WorkspaceSwitcher = () => {
             {workspaces.map((workspace) => (
               <Dropdown.Item key={workspace.id} id={workspace.slug} textValue={workspace.name}>
                 <div className="flex flex-col">
-                  <Label>{workspace.name}</Label>
+                  <div className="flex items-center gap-1.5">
+                    <Label>{workspace.name}</Label>
+                    <Chip variant="soft" size="sm" color={WORKSPACE_ROLE_COLOR[workspace.role]}>
+                      {WORKSPACE_ROLE_LABELS[workspace.role]}
+                    </Chip>
+                  </div>
                   <Description>{formatMembers(workspace.membersCount)}</Description>
                 </div>
                 {workspace.id === activeWorkspace.id && (

@@ -15,8 +15,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  memberships     WorkspaceMember[]
-  sentInvitations Invitation[]      @relation("InvitationInvitedBy")
+  memberships        WorkspaceMember[] @relation("WorkspaceMemberUser")
+  removedMemberships WorkspaceMember[] @relation("WorkspaceMemberRemovedBy")
+  sentInvitations    Invitation[]      @relation("InvitationInvitedBy")
 
   @@map("users")
 }
@@ -40,16 +41,25 @@ enum WorkspaceRole {
   MEMBER
 }
 
+enum WorkspaceMemberStatus {
+  ACTIVE
+  REMOVED
+}
+
 model WorkspaceMember {
-  id          String        @id @default(ulid())
+  id          String                @id @default(ulid())
   workspaceId String
   userId      String
-  role        WorkspaceRole @default(MEMBER)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  role        WorkspaceRole         @default(MEMBER)
+  status      WorkspaceMemberStatus @default(ACTIVE)
+  removedAt   DateTime?
+  removedById String?
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
 
   workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User      @relation("WorkspaceMemberUser", fields: [userId], references: [id], onDelete: Cascade)
+  removedBy User?     @relation("WorkspaceMemberRemovedBy", fields: [removedById], references: [id], onDelete: SetNull)
 
   @@unique([workspaceId, userId])
   @@index([userId])
@@ -61,17 +71,24 @@ enum InvitationStatus {
   ACCEPTED
   DECLINED
   EXPIRED
+  CANCELED
+}
+
+enum InvitationKind {
+  EMAIL
+  LINK
 }
 
 model Invitation {
   id          String           @id @default(ulid())
   workspaceId String
-  email       String
+  kind        InvitationKind   @default(EMAIL)
+  email       String?
   role        WorkspaceRole    @default(MEMBER)
   token       String           @unique
   status      InvitationStatus @default(PENDING)
   invitedById String
-  expiresAt   DateTime
+  expiresAt   DateTime?
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
 

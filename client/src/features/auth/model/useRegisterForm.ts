@@ -16,7 +16,11 @@ import {
 } from './errors'
 import { type RegisterFormValues, registerFormSchema } from './schemas'
 
-export const useRegisterForm = () => {
+interface UseRegisterFormOptions {
+  inviteToken?: string
+}
+
+export const useRegisterForm = ({ inviteToken }: UseRegisterFormOptions) => {
   const navigate = useNavigate()
   const [serverError, setServerError] = useState<string | null>(null)
   const [mutationState, executeRegister] = useMutation(RegisterDocument)
@@ -34,7 +38,9 @@ export const useRegisterForm = () => {
   const submit = form.handleSubmit(async ({ confirmPassword: _, ...values }) => {
     setServerError(null)
 
-    const result = await executeGuardedMutation(() => executeRegister({ input: values }))
+    const result = await executeGuardedMutation(() =>
+      executeRegister({ input: { ...values, inviteToken } }),
+    )
 
     if (result.error) {
       if (hasAuthErrorCode(result.error, 'EMAIL_ALREADY_REGISTERED')) {
@@ -48,7 +54,8 @@ export const useRegisterForm = () => {
       return
     }
 
-    const user = result.data?.register.user
+    const payload = result.data?.register
+    const user = payload?.user
 
     if (!user) {
       setServerError(FALLBACK_ERROR_MESSAGE)
@@ -57,6 +64,21 @@ export const useRegisterForm = () => {
     }
 
     useAuthStore.getState().setUser(user)
+
+    if (payload?.joinedWorkspaceSlug) {
+      navigate({
+        to: '/w/$slug/dashboard',
+        params: { slug: payload.joinedWorkspaceSlug },
+      })
+
+      return
+    }
+
+    if (inviteToken) {
+      navigate({ to: '/invite/$token', params: { token: inviteToken } })
+
+      return
+    }
 
     navigate({ to: '/onboarding' })
   })

@@ -12,19 +12,21 @@ import { pick } from '~/common/utils/pick.js'
 import type { EnvConfig } from '~/config/env.config.js'
 import { Prisma, User } from '~/generated/prisma/client.js'
 import { PrismaService } from '~/infrastructure/prisma/prisma.service.js'
+import { InvitationService } from '~/modules/workspace/invitations/invitation.service.js'
 
 import { LoginInput } from './dto/login.input.js'
 import { RegisterInput } from './dto/register.input.js'
-import { UserType } from './entities/auth.entity.js'
+import { AuthPayload, UserType } from './entities/auth.entity.js'
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly configService: ConfigService<EnvConfig, true>,
+    private readonly invitationService: InvitationService,
   ) {}
 
-  async register(input: RegisterInput, req: SessionRequest): Promise<UserType> {
+  async register(input: RegisterInput, req: SessionRequest): Promise<AuthPayload> {
     const { email, fullName, password } = input
 
     const existing = await this.prismaService.user.findUnique({ where: { email } })
@@ -57,10 +59,15 @@ export class AuthService {
     req.session.createdAt = Date.now()
     req.session.csrfToken = csrfToken
 
-    return this.toUserType(user)
+    const userType = this.toUserType(user)
+    const joinedWorkspaceSlug = input.inviteToken
+      ? await this.invitationService.bindInvitationToUser(userType, input.inviteToken)
+      : null
+
+    return { user: userType, joinedWorkspaceSlug }
   }
 
-  async login(input: LoginInput, req: SessionRequest): Promise<UserType> {
+  async login(input: LoginInput, req: SessionRequest): Promise<AuthPayload> {
     const { email, password } = input
 
     const user = await this.prismaService.user.findUnique({ where: { email } })
@@ -77,7 +84,7 @@ export class AuthService {
     req.session.createdAt = Date.now()
     req.session.csrfToken = csrfToken
 
-    return this.toUserType(user)
+    return { user: this.toUserType(user), joinedWorkspaceSlug: null }
   }
 
   async logout(req: SessionRequest, res: Response): Promise<boolean> {

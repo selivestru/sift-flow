@@ -2,14 +2,17 @@ import { Injectable } from '@nestjs/common'
 
 import { codedException } from '~/common/errors/coded.exception.js'
 import { ErrorCode } from '~/common/errors/error-code.js'
-import type { WorkspaceMembership } from '~/common/types/workspace.types.js'
-import { Prisma, WorkspaceRole } from '~/generated/prisma/client.js'
+import { Prisma, WorkspaceMemberStatus, WorkspaceRole } from '~/generated/prisma/client.js'
 import { PrismaService } from '~/infrastructure/prisma/prisma.service.js'
-
-import { CreateWorkspaceInput } from './dto/create-workspace.input.js'
-import { UpdateWorkspaceInput } from './dto/update-workspace.input.js'
-import { WorkspaceType } from './entities/workspace.entity.js'
-import { WORKSPACE_MEMBERS_COUNT_INCLUDE, toWorkspaceType } from './workspace.mapper.js'
+import type { WorkspaceMembership } from '~/modules/workspace/core/workspace-membership.types.js'
+import { WorkspaceType } from '~/modules/workspace/core/workspace.entity.js'
+import {
+  WORKSPACE_MEMBERS_COUNT_INCLUDE,
+  toWorkspaceType,
+} from '~/modules/workspace/core/workspace.mapper.js'
+import { CreateWorkspaceInput } from '~/modules/workspace/dto/create-workspace.input.js'
+import { UpdateWorkspaceInput } from '~/modules/workspace/dto/update-workspace.input.js'
+import { buildJoinLinkData } from '~/modules/workspace/invitations/workspace-join-link.service.js'
 
 @Injectable()
 export class WorkspaceService {
@@ -28,7 +31,11 @@ export class WorkspaceService {
 
   async createWorkspace(userId: string, input: CreateWorkspaceInput): Promise<WorkspaceType> {
     const ownedCount = await this.prismaService.workspace.count({
-      where: { members: { some: { userId, role: WorkspaceRole.OWNER } } },
+      where: {
+        members: {
+          some: { userId, role: WorkspaceRole.OWNER, status: WorkspaceMemberStatus.ACTIVE },
+        },
+      },
     })
 
     if (ownedCount >= this.WORKSPACE_LIMIT_PER_USER) {
@@ -41,6 +48,7 @@ export class WorkspaceService {
           name: input.name,
           slug: input.slug,
           members: { create: { userId, role: WorkspaceRole.OWNER } },
+          invitations: { create: buildJoinLinkData(userId) },
         },
         include: WORKSPACE_MEMBERS_COUNT_INCLUDE,
       })
@@ -82,7 +90,7 @@ export class WorkspaceService {
 
   async myWorkspaces(userId: string): Promise<WorkspaceType[]> {
     const memberships = await this.prismaService.workspaceMember.findMany({
-      where: { userId },
+      where: { userId, status: WorkspaceMemberStatus.ACTIVE },
       include: { workspace: { include: WORKSPACE_MEMBERS_COUNT_INCLUDE } },
       orderBy: { createdAt: 'asc' },
     })

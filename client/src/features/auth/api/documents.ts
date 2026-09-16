@@ -30,6 +30,7 @@ export const RegisterDocument = graphql(`
         email
         fullName
       }
+      joinedWorkspaceSlug
     }
   }
 `)

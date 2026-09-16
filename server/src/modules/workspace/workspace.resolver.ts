@@ -2,19 +2,18 @@ import { UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
 import { CurrentUser } from '~/common/decorators/current-user.decorator.js'
-import { CurrentWorkspaceMembership } from '~/common/decorators/current-workspace-membership.decorator.js'
-import { Role } from '~/common/decorators/role.decorator.js'
 import { CsrfGuard } from '~/common/guards/csrf.guard.js'
-import { WorkspaceRoleGuard } from '~/common/guards/workspace-role.guard.js'
-import type { WorkspaceMembership } from '~/common/types/workspace.types.js'
 import { WorkspaceRole } from '~/generated/prisma/client.js'
 import { UserType } from '~/modules/auth/entities/auth.entity.js'
-
-import { CreateWorkspaceInput } from './dto/create-workspace.input.js'
-import { UpdateWorkspaceInput } from './dto/update-workspace.input.js'
-import { WorkspaceSlugArgs } from './dto/workspace-slug.args.js'
-import { WorkspaceType } from './entities/workspace.entity.js'
-import { WorkspaceService } from './workspace.service.js'
+import { CurrentWorkspaceMembership } from '~/modules/workspace/core/current-workspace-membership.decorator.js'
+import { Role } from '~/modules/workspace/core/role.decorator.js'
+import type { WorkspaceMembership } from '~/modules/workspace/core/workspace-membership.types.js'
+import { WorkspaceRoleGuard } from '~/modules/workspace/core/workspace-role.guard.js'
+import { WorkspaceType } from '~/modules/workspace/core/workspace.entity.js'
+import { CreateWorkspaceInput } from '~/modules/workspace/dto/create-workspace.input.js'
+import { UpdateWorkspaceInput } from '~/modules/workspace/dto/update-workspace.input.js'
+import { WorkspaceSlugArgs } from '~/modules/workspace/dto/workspace-slug.args.js'
+import { WorkspaceService } from '~/modules/workspace/workspace.service.js'
 
 @Resolver(() => WorkspaceType)
 export class WorkspaceResolver {

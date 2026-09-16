@@ -1,19 +1,14 @@
 import { Module } from '@nestjs/common'
 
-import { WorkspaceRoleGuard } from '~/common/guards/workspace-role.guard.js'
-
-import { InvitationService } from './invitation.service.js'
-import { WorkspaceInvitationResolver } from './workspace-invitation.resolver.js'
-import { WorkspaceResolver } from './workspace.resolver.js'
-import { WorkspaceService } from './workspace.service.js'
+import { WorkspaceCoreModule } from '~/modules/workspace/core/workspace-core.module.js'
+import { InvitationModule } from '~/modules/workspace/invitations/invitation.module.js'
+import { WorkspaceMemberModule } from '~/modules/workspace/members/workspace-member.module.js'
+import { WorkspaceResolver } from '~/modules/workspace/workspace.resolver.js'
+import { WorkspaceService } from '~/modules/workspace/workspace.service.js'
 
 @Module({
-  providers: [
-    WorkspaceResolver,
-    WorkspaceInvitationResolver,
-    WorkspaceService,
-    InvitationService,
-    WorkspaceRoleGuard,
-  ],
+  imports: [WorkspaceCoreModule, WorkspaceMemberModule, InvitationModule],
+  providers: [WorkspaceResolver, WorkspaceService],
+  exports: [WorkspaceService],
 })
 export class WorkspaceModule {}

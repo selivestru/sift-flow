@@ -24,6 +24,14 @@ const ERROR_DETAILS: Record<ErrorCode, { status: HttpStatus; message: string }> 
     status: HttpStatus.CONFLICT,
     message: 'User is already a workspace member',
   },
+  WORKSPACE_MEMBER_NOT_FOUND: {
+    status: HttpStatus.NOT_FOUND,
+    message: 'Workspace member not found',
+  },
+  WORKSPACE_JOIN_LINK_INVALID: {
+    status: HttpStatus.NOT_FOUND,
+    message: 'Join link not found',
+  },
   WORKSPACE_LIMIT_REACHED: {
     status: HttpStatus.CONFLICT,
     message: 'Workspace limit reached',
@@ -39,6 +47,10 @@ const ERROR_DETAILS: Record<ErrorCode, { status: HttpStatus; message: string }> 
   INVITATION_EXPIRED: {
     status: HttpStatus.GONE,
     message: 'Invitation expired',
+  },
+  INVITATION_EMAIL_MISMATCH: {
+    status: HttpStatus.FORBIDDEN,
+    message: 'Invitation was issued for another email address',
   },
   TOO_MANY_REQUESTS: { status: HttpStatus.TOO_MANY_REQUESTS, message: 'Too many requests' },
   INTERNAL_SERVER_ERROR: {
