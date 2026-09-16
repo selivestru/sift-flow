@@ -1,5 +1,6 @@
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router'
 
+import { getLastOpenedWorkspace } from '~/entities/workspace'
 import { fetchMyWorkspaces } from '~/shared/api/workspace'
 
 export const Route = createFileRoute('/_authenticated')({
@@ -16,7 +17,11 @@ export const Route = createFileRoute('/_authenticated')({
     if (location.pathname === '/onboarding') {
       if (workspaces.length === 0) return
 
-      throw redirect({ to: '/w/$slug', params: { slug: workspaces[0].slug } })
+      const lastOpenedWorkspace = getLastOpenedWorkspace()
+      const workspace = workspaces.find((workspace) => workspace.slug === lastOpenedWorkspace)
+      const slug = workspace?.slug ?? workspaces[0].slug
+
+      throw redirect({ to: '/w/$slug', params: { slug } })
     }
 
     if (workspaces.length === 0) {

@@ -1,12 +1,12 @@
 import { Button, Description, Dropdown, Label, Separator, Typography } from '@heroui/react'
+import { useNavigate, useParams } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Check, ChevronDown, Plus } from 'reicon-react'
 import { useQuery } from 'urql'
 
+import { setLastOpenedWorkspace } from '~/entities/workspace'
 import { WorkspaceFormModal, type WorkspaceSummary } from '~/features/workspace-form'
 import { MyWorkspacesDocument } from '~/shared/api/workspace'
-
-import { useActiveWorkspaceStore } from '../model/workspace'
 
 const WORKSPACE_LIMIT = 5
 
@@ -18,15 +18,13 @@ const getMonogram = (name: string) => name.charAt(0).toUpperCase()
 
 export const WorkspaceSwitcher = () => {
   const [{ data }] = useQuery({ query: MyWorkspacesDocument, requestPolicy: 'cache-only' })
-  const activeWorkspaceId = useActiveWorkspaceStore((state) => state.activeWorkspaceId)
-  const setActiveWorkspaceId = useActiveWorkspaceStore((state) => state.setActiveWorkspaceId)
-
+  const { slug } = useParams({ from: '/_authenticated/_shell/w/$slug' })
   const [isCreateOpen, setIsCreateOpen] = useState(false)
+  const navigate = useNavigate()
 
   const workspaces = data?.myWorkspaces ?? []
   const ownedWorkspaceCount = workspaces.filter((workspace) => workspace.role === 'OWNER').length
-  const activeWorkspace =
-    workspaces.find((workspace) => workspace.id === activeWorkspaceId) ?? workspaces[0]
+  const activeWorkspace = workspaces.find((workspace) => workspace.slug === slug) ?? workspaces[0]
 
   if (!activeWorkspace) return null
 
@@ -36,11 +34,13 @@ export const WorkspaceSwitcher = () => {
       return
     }
 
-    setActiveWorkspaceId(String(key))
+    setLastOpenedWorkspace(String(key))
+    navigate({ to: '/w/$slug', params: { slug: String(key) } })
   }
 
   const handleCreated = (workspace: WorkspaceSummary) => {
-    setActiveWorkspaceId(workspace.id)
+    setLastOpenedWorkspace(workspace.slug)
+    navigate({ to: '/w/$slug', params: { slug: workspace.slug } })
   }
 
   return (
@@ -63,7 +63,7 @@ export const WorkspaceSwitcher = () => {
         <Dropdown.Popover>
           <Dropdown.Menu onAction={handleAction}>
             {workspaces.map((workspace) => (
-              <Dropdown.Item key={workspace.id} id={workspace.id} textValue={workspace.name}>
+              <Dropdown.Item key={workspace.id} id={workspace.slug} textValue={workspace.name}>
                 <div className="flex flex-col">
                   <Label>{workspace.name}</Label>
                   <Description>{formatMembers(workspace.membersCount)}</Description>
