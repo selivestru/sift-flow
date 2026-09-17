@@ -1,4 +1,4 @@
-import { Button, ErrorMessage, Spinner, Typography } from '@heroui/react'
+import { Alert, Button, Spinner, Typography } from '@heroui/react'
 import { useNavigate } from '@tanstack/react-router'
 
 import { useAuthStore } from '~/shared/stores/auth.store'
@@ -93,7 +93,15 @@ export const InvitationReady = ({ preview, token }: InvitationReadyProps) => {
 
   return (
     <InvitationCard facts={facts} preview={preview}>
-      {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
+      {serverError && (
+        <Alert status="danger">
+          <Alert.Indicator />
+          <Alert.Content>
+            <Alert.Title>Could not complete this action</Alert.Title>
+            <Alert.Description>{serverError}</Alert.Description>
+          </Alert.Content>
+        </Alert>
+      )}
       <div className="flex flex-col gap-2">
         <Button fullWidth isPending={isJoining} onPress={join}>
           {({ isPending }) => (

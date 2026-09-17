@@ -81,6 +81,36 @@ export const WorkspaceMemberDocument = graphql(`
   }
 `)
 
+export const InviteWorkspaceMemberDocument = graphql(`
+  mutation InviteWorkspaceMember($input: InviteWorkspaceMemberInput!) {
+    inviteWorkspaceMember(input: $input) {
+      id
+      email
+      role
+      status
+    }
+  }
+`)
+
+export const WorkspaceInvitationsDocument = graphql(`
+  query WorkspaceInvitations($workspaceId: ID!, $statuses: [InvitationStatus!]) {
+    workspaceInvitations(workspaceId: $workspaceId, statuses: $statuses) {
+      id
+      email
+      role
+      status
+      token
+      expiresAt
+      createdAt
+      invitedBy {
+        id
+        email
+        fullName
+      }
+    }
+  }
+`)
+
 export const UpdateWorkspaceMemberRoleDocument = graphql(`
   mutation UpdateWorkspaceMemberRole($input: UpdateWorkspaceMemberRoleInput!) {
     updateWorkspaceMemberRole(input: $input) {

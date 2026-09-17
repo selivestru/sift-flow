@@ -1,7 +1,7 @@
 import {
+  Alert,
   Button,
   Card,
-  ErrorMessage,
   FieldError,
   Form,
   InputGroup,
@@ -77,7 +77,15 @@ export const InviteMembersStep = ({ workspace, onFinish }: InviteMembersStepProp
               </TextField>
             )}
           />
-          {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
+          {serverError && (
+            <Alert status="danger">
+              <Alert.Indicator />
+              <Alert.Content>
+                <Alert.Title>Could not send the invitation</Alert.Title>
+                <Alert.Description>{serverError}</Alert.Description>
+              </Alert.Content>
+            </Alert>
+          )}
         </Form>
         <Separator />
         {invitedEmails.length === 0 ? (

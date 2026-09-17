@@ -1,9 +1,9 @@
 import { useQuery } from 'urql'
 
 import { WorkspaceMemberDocument, getApiErrorMessage } from '~/shared/api/graphql'
+import { useWorkspaceAccess } from '~/shared/hooks/useWorkspaceAccess'
 
 import { toMemberDetails } from './member-details'
-import { useWorkspaceAccess } from './useWorkspaceAccess'
 
 export const useMemberDetails = (slug: string, userId: string | null) => {
   const { workspaceId } = useWorkspaceAccess(slug)

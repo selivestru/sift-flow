@@ -30,6 +30,16 @@ export class WorkspaceJoinLinkResolver {
     return this.workspaceJoinLinkService.preview(args.token)
   }
 
+  @Query(() => WorkspaceJoinLinkType)
+  @UseGuards(WorkspaceRoleGuard)
+  @Role(WorkspaceRole.ADMIN)
+  workspaceJoinLink(
+    @Args() _args: WorkspaceJoinLinkArgs,
+    @CurrentWorkspaceMembership() membership: WorkspaceMembership,
+  ): Promise<WorkspaceJoinLinkType> {
+    return this.workspaceJoinLinkService.link(membership)
+  }
+
   @Mutation(() => WorkspaceJoinLinkType)
   @UseGuards(CsrfGuard, WorkspaceRoleGuard)
   @Role(WorkspaceRole.ADMIN)

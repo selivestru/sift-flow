@@ -1,8 +1,8 @@
 import {
+  Alert,
   Button,
   Chip,
   Description,
-  ErrorMessage,
   FieldError,
   Form,
   Input,
@@ -115,7 +115,15 @@ export const WorkspaceForm = (props: WorkspaceFormProps) => {
         )}
       />
 
-      {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
+      {serverError && (
+        <Alert status="danger">
+          <Alert.Indicator />
+          <Alert.Content>
+            <Alert.Title>Could not save this workspace</Alert.Title>
+            <Alert.Description>{serverError}</Alert.Description>
+          </Alert.Content>
+        </Alert>
+      )}
 
       <div className="flex justify-end gap-2">
         {onCancel && (

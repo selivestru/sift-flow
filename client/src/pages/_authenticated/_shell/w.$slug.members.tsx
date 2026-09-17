@@ -1,37 +1,34 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, Outlet } from '@tanstack/react-router'
 
-import {
-  MembersScreen,
-  parseMembersSearch,
-  toMembersFilters,
-  toMembersSearch,
-  type MembersFilters,
-} from '~/widgets/workspace-members'
+import { getInvitationPermissions } from '~/entities/workspace'
+import { InviteMemberModal } from '~/features/invite-workspace-member'
+import { useWorkspaceAccess } from '~/shared/hooks/useWorkspaceAccess'
+import { useInvitationsRefresh } from '~/widgets/workspace-invitations'
+import { MembersTabs } from '~/widgets/workspace-members'
 
 export const Route = createFileRoute('/_authenticated/_shell/w/$slug/members')({
-  validateSearch: parseMembersSearch,
   component: RouteComponent,
 })
 
 function RouteComponent() {
   const { slug } = Route.useParams()
-  const search = Route.useSearch()
-  const navigate = useNavigate()
-
-  const handleFiltersChange = (filters: MembersFilters, options?: { replace?: boolean }) => {
-    navigate({
-      to: '/w/$slug/members',
-      params: { slug },
-      search: toMembersSearch(filters),
-      replace: options?.replace ?? false,
-    })
-  }
+  const { workspaceId, viewerRole } = useWorkspaceAccess(slug)
+  const permissions = getInvitationPermissions(viewerRole)
+  const requestRefresh = useInvitationsRefresh((state) => state.requestRefresh)
 
   return (
-    <MembersScreen
-      filters={toMembersFilters(search)}
-      slug={slug}
-      onFiltersChange={handleFiltersChange}
-    />
+    <div className="flex flex-col gap-6 px-4 py-6 sm:px-6">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <MembersTabs slug={slug} />
+        {workspaceId && permissions.canManageInvitations && (
+          <InviteMemberModal
+            assignableRoles={permissions.assignableRoles}
+            workspaceId={workspaceId}
+            onInvited={requestRefresh}
+          />
+        )}
+      </div>
+      <Outlet />
+    </div>
   )
 }

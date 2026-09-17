@@ -5,11 +5,11 @@ import { useMutation } from 'urql'
 
 import {
   FALLBACK_ERROR_MESSAGE,
+  InviteWorkspaceMemberDocument,
   executeGuardedMutation,
   getApiErrorMessage,
 } from '~/shared/api/graphql'
 
-import { InviteWorkspaceMemberDocument } from '../api/documents'
 import { ALREADY_INVITED_MESSAGE } from './errors'
 import { type InviteMemberValues, inviteMemberSchema } from './schemas'
 

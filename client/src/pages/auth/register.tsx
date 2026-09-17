@@ -1,13 +1,4 @@
-import {
-  Button,
-  ErrorMessage,
-  FieldError,
-  Form,
-  Input,
-  Label,
-  Spinner,
-  TextField,
-} from '@heroui/react'
+import { Alert, Button, FieldError, Form, Input, Label, Spinner, TextField } from '@heroui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { Controller } from 'react-hook-form'
 
@@ -103,7 +94,15 @@ function RouteComponent() {
           />
         )}
       />
-      {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
+      {serverError && (
+        <Alert status="danger">
+          <Alert.Indicator />
+          <Alert.Content>
+            <Alert.Title>Could not create your account</Alert.Title>
+            <Alert.Description>{serverError}</Alert.Description>
+          </Alert.Content>
+        </Alert>
+      )}
       <Button type="submit" fullWidth isPending={isSubmitting}>
         {({ isPending }) => (
           <>

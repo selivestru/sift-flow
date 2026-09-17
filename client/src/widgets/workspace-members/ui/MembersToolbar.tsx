@@ -1,4 +1,11 @@
-import { SearchField, Spinner, ToggleButton, ToggleButtonGroup, type Key } from '@heroui/react'
+import {
+  SearchField,
+  Spinner,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+  type Key,
+} from '@heroui/react'
 import { useState } from 'react'
 
 import { WORKSPACE_ROLE_LABELS } from '~/entities/workspace'
@@ -12,6 +19,7 @@ const SEARCH_DEBOUNCE_MS = 300
 interface MembersToolbarProps {
   search: string
   roles: WorkspaceRole[]
+  countLabel: string | null
   isFetching: boolean
   onSearchChange: (search: string) => void
   onRolesChange: (roles: WorkspaceRole[]) => void
@@ -22,6 +30,7 @@ const toSelectedRoles = (keys: Set<Key>) => WORKSPACE_ROLES.filter((role) => key
 export const MembersToolbar = ({
   search,
   roles,
+  countLabel,
   isFetching,
   onSearchChange,
   onRolesChange,
@@ -72,6 +81,11 @@ export const MembersToolbar = ({
         ))}
       </ToggleButtonGroup>
       {isFetching && <Spinner aria-label="Loading members" />}
+      {countLabel && (
+        <Typography className="ml-auto" color="muted" type="body-sm">
+          {countLabel}
+        </Typography>
+      )}
     </div>
   )
 }

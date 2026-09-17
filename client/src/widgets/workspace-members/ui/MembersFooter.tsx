@@ -48,7 +48,7 @@ export const MembersFooter = ({
           ))}
         </ToggleButtonGroup>
       </div>
-      <div className="flex min-w-0 flex-1 items-center justify-end">
+      <div className="flex flex-1 items-center justify-end">
         <Pagination>
           <Pagination.Summary>
             {first}–{last} of {total}

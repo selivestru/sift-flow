@@ -7,6 +7,7 @@ import { codedException } from '~/common/errors/coded.exception.js'
 import { ErrorCode } from '~/common/errors/error-code.js'
 import type { EnvConfig } from '~/config/env.config.js'
 import { InvitationKind, InvitationStatus, WorkspaceRole } from '~/generated/prisma/client.js'
+import type { Invitation } from '~/generated/prisma/client.js'
 import { PrismaService } from '~/infrastructure/prisma/prisma.service.js'
 import type { WorkspaceMembership } from '~/modules/workspace/core/workspace-membership.types.js'
 import {
@@ -51,6 +52,22 @@ export class WorkspaceJoinLinkService {
     }
   }
 
+  async link(membership: WorkspaceMembership): Promise<WorkspaceJoinLinkType> {
+    const link = await this.prismaService.invitation.findFirst({
+      where: {
+        workspaceId: membership.id,
+        kind: InvitationKind.LINK,
+        status: InvitationStatus.PENDING,
+      },
+    })
+
+    if (!link) {
+      throw codedException(ErrorCode.INTERNAL_SERVER_ERROR)
+    }
+
+    return this.toJoinLinkType(link)
+  }
+
   async revoke(membership: WorkspaceMembership, userId: string): Promise<WorkspaceJoinLinkType> {
     await this.prismaService.invitation.updateMany({
       where: {
@@ -68,6 +85,10 @@ export class WorkspaceJoinLinkService {
       },
     })
 
+    return this.toJoinLinkType(link)
+  }
+
+  private toJoinLinkType(link: Invitation): WorkspaceJoinLinkType {
     return {
       id: link.id,
       url: `${this.configService.get('ORIGIN', { infer: true })}/invite/${link.token}`,

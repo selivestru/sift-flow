@@ -1,4 +1,3 @@
-import { Typography } from '@heroui/react'
 import { useEffect, useState } from 'react'
 
 import { type MemberRow, formatMembersCount } from '../model/member-row'
@@ -35,16 +34,9 @@ export const MembersScreen = ({ slug, filters, onFiltersChange }: MembersScreenP
   }
 
   return (
-    <div className="flex flex-col gap-6 px-4 py-6 sm:px-6">
-      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-        <Typography type="h3">Members</Typography>
-        {!isLoading && !errorMessage && (
-          <Typography color="muted" type="body-sm">
-            {formatMembersCount(total)}
-          </Typography>
-        )}
-      </div>
+    <div className="flex flex-col gap-6">
       <MembersToolbar
+        countLabel={isLoading || errorMessage ? null : formatMembersCount(total)}
         isFetching={isFetching}
         roles={filters.roles}
         search={filters.search}

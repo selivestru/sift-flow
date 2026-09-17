@@ -21,6 +21,8 @@ import { Route as InviteTokenRouteImport } from './../pages/invite.$token'
 import { Route as AuthenticatedShellWSlugRouteImport } from './../pages/_authenticated/_shell/w.$slug'
 import { Route as AuthenticatedShellWSlugDashboardRouteImport } from './../pages/_authenticated/_shell/w.$slug.dashboard'
 import { Route as AuthenticatedShellWSlugMembersRouteImport } from './../pages/_authenticated/_shell/w.$slug.members'
+import { Route as AuthenticatedShellWSlugMembersIndexRouteImport } from './../pages/_authenticated/_shell/w.$slug.members.index'
+import { Route as AuthenticatedShellWSlugMembersInvitationsRouteImport } from './../pages/_authenticated/_shell/w.$slug.members.invitations'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -82,6 +84,18 @@ const AuthenticatedShellWSlugMembersRoute =
     path: '/members',
     getParentRoute: () => AuthenticatedShellWSlugRoute,
   } as any)
+const AuthenticatedShellWSlugMembersIndexRoute =
+  AuthenticatedShellWSlugMembersIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedShellWSlugMembersRoute,
+  } as any)
+const AuthenticatedShellWSlugMembersInvitationsRoute =
+  AuthenticatedShellWSlugMembersInvitationsRouteImport.update({
+    id: '/invitations',
+    path: '/invitations',
+    getParentRoute: () => AuthenticatedShellWSlugMembersRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -93,7 +107,9 @@ export interface FileRoutesByFullPath {
   '/auth/': typeof AuthIndexRoute
   '/w/$slug': typeof AuthenticatedShellWSlugRouteWithChildren
   '/w/$slug/dashboard': typeof AuthenticatedShellWSlugDashboardRoute
-  '/w/$slug/members': typeof AuthenticatedShellWSlugMembersRoute
+  '/w/$slug/members': typeof AuthenticatedShellWSlugMembersRouteWithChildren
+  '/w/$slug/members/invitations': typeof AuthenticatedShellWSlugMembersInvitationsRoute
+  '/w/$slug/members/': typeof AuthenticatedShellWSlugMembersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -104,7 +120,8 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthIndexRoute
   '/w/$slug': typeof AuthenticatedShellWSlugRouteWithChildren
   '/w/$slug/dashboard': typeof AuthenticatedShellWSlugDashboardRoute
-  '/w/$slug/members': typeof AuthenticatedShellWSlugMembersRoute
+  '/w/$slug/members/invitations': typeof AuthenticatedShellWSlugMembersInvitationsRoute
+  '/w/$slug/members': typeof AuthenticatedShellWSlugMembersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -119,7 +136,9 @@ export interface FileRoutesById {
   '/auth/': typeof AuthIndexRoute
   '/_authenticated/_shell/w/$slug': typeof AuthenticatedShellWSlugRouteWithChildren
   '/_authenticated/_shell/w/$slug/dashboard': typeof AuthenticatedShellWSlugDashboardRoute
-  '/_authenticated/_shell/w/$slug/members': typeof AuthenticatedShellWSlugMembersRoute
+  '/_authenticated/_shell/w/$slug/members': typeof AuthenticatedShellWSlugMembersRouteWithChildren
+  '/_authenticated/_shell/w/$slug/members/invitations': typeof AuthenticatedShellWSlugMembersInvitationsRoute
+  '/_authenticated/_shell/w/$slug/members/': typeof AuthenticatedShellWSlugMembersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -134,6 +153,8 @@ export interface FileRouteTypes {
     | '/w/$slug'
     | '/w/$slug/dashboard'
     | '/w/$slug/members'
+    | '/w/$slug/members/invitations'
+    | '/w/$slug/members/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -144,6 +165,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/w/$slug'
     | '/w/$slug/dashboard'
+    | '/w/$slug/members/invitations'
     | '/w/$slug/members'
   id:
     | '__root__'
@@ -159,6 +181,8 @@ export interface FileRouteTypes {
     | '/_authenticated/_shell/w/$slug'
     | '/_authenticated/_shell/w/$slug/dashboard'
     | '/_authenticated/_shell/w/$slug/members'
+    | '/_authenticated/_shell/w/$slug/members/invitations'
+    | '/_authenticated/_shell/w/$slug/members/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -254,19 +278,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedShellWSlugMembersRouteImport
       parentRoute: typeof AuthenticatedShellWSlugRoute
     }
+    '/_authenticated/_shell/w/$slug/members/': {
+      id: '/_authenticated/_shell/w/$slug/members/'
+      path: '/'
+      fullPath: '/w/$slug/members/'
+      preLoaderRoute: typeof AuthenticatedShellWSlugMembersIndexRouteImport
+      parentRoute: typeof AuthenticatedShellWSlugMembersRoute
+    }
+    '/_authenticated/_shell/w/$slug/members/invitations': {
+      id: '/_authenticated/_shell/w/$slug/members/invitations'
+      path: '/invitations'
+      fullPath: '/w/$slug/members/invitations'
+      preLoaderRoute: typeof AuthenticatedShellWSlugMembersInvitationsRouteImport
+      parentRoute: typeof AuthenticatedShellWSlugMembersRoute
+    }
   }
 }
 
+interface AuthenticatedShellWSlugMembersRouteChildren {
+  AuthenticatedShellWSlugMembersInvitationsRoute: typeof AuthenticatedShellWSlugMembersInvitationsRoute
+  AuthenticatedShellWSlugMembersIndexRoute: typeof AuthenticatedShellWSlugMembersIndexRoute
+}
+
+const AuthenticatedShellWSlugMembersRouteChildren: AuthenticatedShellWSlugMembersRouteChildren =
+  {
+    AuthenticatedShellWSlugMembersInvitationsRoute:
+      AuthenticatedShellWSlugMembersInvitationsRoute,
+    AuthenticatedShellWSlugMembersIndexRoute:
+      AuthenticatedShellWSlugMembersIndexRoute,
+  }
+
+const AuthenticatedShellWSlugMembersRouteWithChildren =
+  AuthenticatedShellWSlugMembersRoute._addFileChildren(
+    AuthenticatedShellWSlugMembersRouteChildren,
+  )
+
 interface AuthenticatedShellWSlugRouteChildren {
   AuthenticatedShellWSlugDashboardRoute: typeof AuthenticatedShellWSlugDashboardRoute
-  AuthenticatedShellWSlugMembersRoute: typeof AuthenticatedShellWSlugMembersRoute
+  AuthenticatedShellWSlugMembersRoute: typeof AuthenticatedShellWSlugMembersRouteWithChildren
 }
 
 const AuthenticatedShellWSlugRouteChildren: AuthenticatedShellWSlugRouteChildren =
   {
     AuthenticatedShellWSlugDashboardRoute:
       AuthenticatedShellWSlugDashboardRoute,
-    AuthenticatedShellWSlugMembersRoute: AuthenticatedShellWSlugMembersRoute,
+    AuthenticatedShellWSlugMembersRoute:
+      AuthenticatedShellWSlugMembersRouteWithChildren,
   }
 
 const AuthenticatedShellWSlugRouteWithChildren =

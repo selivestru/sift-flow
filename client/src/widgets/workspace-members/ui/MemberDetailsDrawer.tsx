@@ -6,12 +6,12 @@ import {
   WORKSPACE_ROLE_COLOR,
   WORKSPACE_ROLE_LABELS,
 } from '~/entities/workspace'
+import { useWorkspaceAccess } from '~/shared/hooks/useWorkspaceAccess'
 import { useAuthStore } from '~/shared/stores/auth.store'
 import { getInitials } from '~/shared/utils/getInitials'
 
 import type { MemberRow } from '../model/member-row'
 import { useMemberDetails } from '../model/useMemberDetails'
-import { useWorkspaceAccess } from '../model/useWorkspaceAccess'
 import { MemberManageSection } from './MemberManageSection'
 
 interface MemberDetailsDrawerProps {
@@ -48,7 +48,7 @@ export const MemberDetailsDrawer = ({ slug, member, onClose }: MemberDetailsDraw
               <Avatar className="size-10 shrink-0">
                 <Avatar.Fallback>{getInitials(member?.fullName ?? '')}</Avatar.Fallback>
               </Avatar>
-              <div className="flex min-w-0 flex-col">
+              <div className="flex flex-col">
                 <Drawer.Heading className="truncate">{member?.fullName}</Drawer.Heading>
                 <Typography color="muted" truncate type="body-sm">
                   {member?.email}
